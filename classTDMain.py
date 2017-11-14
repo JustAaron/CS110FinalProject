@@ -1,4 +1,3 @@
-import os,sys
 import pygame
 from pygame.locals import *
 
@@ -8,7 +7,7 @@ class Controller:
         pygame.init()
         self.mainscreen = pygame.display.set_mode((1000,1000))
         pygame.display.set_caption("Tower Defense")
-        
+        self.counter = 0 
         self.clock = pygame.time.Clock()
         self.clock.tick(30)
         #Event loop
@@ -20,11 +19,12 @@ class Controller:
 
             pygame.display.update
 
-
+    def incrementLabel(self):
+        self.counter +=1
     pygame.quit()
 
 def main():
-    control = Controller()
+    controls = Controller()
 
 main()
 
