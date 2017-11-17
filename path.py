@@ -1,7 +1,9 @@
 class Path:
     def __init__(self):
         '''
-Desc: tset
+Desc: Initializes the list of tuples that represent the 2d map of the world
+Param: self
+Return: None
         '''
         self.paths = []
         self.maxPath = 16
@@ -16,12 +18,27 @@ Desc: tset
         self.paths.append(row4)
         self.paths.append(row5)
     def __str__(self):
+        '''
+Desc: Return the 2d array that represents the path
+Param: self
+Return: List of Tuples
+        '''
         return str(self.paths)
     def getNextPath(self, invader):
+        '''
+Desc: Given an instance of an invader, return its next path number to go to
+Param: self, invader
+Return: int
+        '''
         for i in range(1, self.maxPath + 1):
             if(i == invader.location):
                 return i + 1 #should decrement castle health if this is greater than maxPath
     def getNextPathXY(self, pathNumber):
+        '''
+Desc: Given a path number to go to, return the (x,y) coordinates of the path on the grid
+Param: self, int
+Return: tuple
+        '''
         for i in range(len(self.paths)):
             for j in range(len(self.paths[i])):
                 if(pathNumber == self.paths[i][j]):
