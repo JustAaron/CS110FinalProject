@@ -15,7 +15,9 @@ class Controller:
         #Creates the window and title
         self.mainscreen = pygame.display.set_mode((self.width,self.height))
         pygame.display.set_caption("Tower Defense")
-        self.background = pygame.Surface(self.mainscreen.get_size()).convert()
+        
+        #change background to the image 
+        self.background = pygame.image.load("frontpage.png", self.mainscreen.get_size()).convert_alpha()
         self.clock = pygame.time.Clock()
         
         #Create background, and text on background
@@ -85,7 +87,7 @@ class Controller:
                     if towericon:
                         new_tower.createicon(self.mainscreen,pygame.mouse.get_pos())
                 elif event.type == MOUSEBUTTONUP:
-                    towericon = False         
+                    towericon = False 
         
             self.clock.tick(60)
             pygame.display.flip()
