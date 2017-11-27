@@ -5,34 +5,36 @@ import math
 
 class Tower:
     """Class represents the towers that protects the castle by killling invaders"""
-    def __init__(self,img_file,name,rate,radius,price):
+    def __init__(self,img_file,rate=2,radius=5,price=100):
         """Initializes variables for the tower"""
         #Initializing variables
         self.cost = price
         self.level = 1
-        self.name = name
         self.rate = rate
         self.timer = 0
         self.radius = radius
-        self.range = (math.pi)(radius)**2
         #Creates image and rect
-        self.image = pygame.image.load('assets/' + img_file).convert_alpha())
+        self.image = pygame.image.load('assets/' + img_file).convert_alpha()
         self.rect = self.image.get_rect()
     
+    def createicon(self,screen,mouse):
+        towerimg= self.image
+        towerRect = towerimg.get_rect()
+        towerRect.center = (mouse)
+        screen.blit(towerimg,towerRect.center)
+    
     def place_tower(self):
-        position = pygame.mouse.get_pos()
-        self.rect.x = pos[0]
-        self.rect.y = pos[1]
+        self.rect = pygame.mouse.get_pos()
 
-    def upgrade(self,playermoney,self.towercost,img_file):
+    def upgrade(self,playermoney,cost,img_file):
         if (playermoney > self.towercost):
-            playermoney -= self.towercost
+            playermoney -= cost
             self.level += 1
             self.damage += 15
             self.speed += 1
             self.radius += 2
             self.range = (math.pi)(radius)**2
-            self.image = pygame.image.load('assets/' + img_file).convert_alpha())
+            self.image = pygame.image.load('assets/' + img_file).convert_alpha()
             self.rect = self.image.get_rect()
         else:
             return "Unable to upgrade: Money is not enough"
@@ -51,6 +53,7 @@ class Tower:
         line3 = "Attack speed: " + str(self.speed)
         self.info.append(line3)
         return self.info
+
 
 
 
