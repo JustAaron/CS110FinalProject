@@ -31,11 +31,8 @@ class Controller:
         self.font = pygame.font.SysFont('arial',15)
         """Image/Text and rect"""
         #Start
-        self.start = self.largefont.render("START", True, (75,0,188))
+        self.start = pygame.Rect((250,250,200,100))
         self.startRect = self.start.get_rect()
-        #Instructions
-        self.instruct = self.largefont.render("INSTRUCTIONS", True, (75,0,188))
-        self.instructRect = self.instruct.get_rect()
         #Tower
         self.towerimg = pygame.image.load('assets/' + "tower.png").convert()
         self.towerRect = self.towerimg.get_rect()
@@ -49,7 +46,7 @@ class Controller:
         #Create background, and text on background
         pygame.mouse.set_visible(True)
         #Background
-        self.menuscreen = pygame.image.load('assets/' + "background.png").convert()
+        self.menuscreen = pygame.image.load('assets/' + "frontpage.png").convert()
         self.menuscreen = pygame.transform.scale(self.menuscreen,(600,600))
         self.menu = self.menuscreen.get_rect()
         self.mainscreen.blit(self.menuscreen,(0,0))
