@@ -27,10 +27,10 @@ class Controller:
         self.towericon = False
         
         #Fonts
-        self.largefont = pygame.font.SysFont('arial',40)
-        self.font = pygame.font.SysFont('arial',15)
+        self.largefont = pygame.font.SysFont('arial',40,True)
+        self.font = pygame.font.SysFont('arial',30,True)
         """Image/Text and rect"""
-        #Start
+        #Start button
         self.start = pygame.draw.rect(self.mainscreen,(255,255,255),(260,245,180,100))
         #Tower
         self.towerimg = pygame.image.load('assets/' + "tower.png").convert()
@@ -39,45 +39,50 @@ class Controller:
     def startMenu(self):
         #Create background, and text on background
         pygame.mouse.set_visible(True)
-        #Background
-        self.menuscreen = pygame.image.load('assets/' + "frontpage.png").convert()
-        self.menuscreen = pygame.transform.scale(self.menuscreen,(self.width,self.height))
-        self.mainscreen.blit(self.menuscreen,(0,0))
+        #Background of start menu
+        menuscreen = pygame.image.load('assets/' + "frontpage.png").convert()
+        menuscreen = pygame.transform.scale(menuscreen,(self.width,self.height))
+        self.mainscreen.blit(menuscreen,(0,0))
 
 
     def interface(self):
-        #Area of variables
-        self.mainscreen.fill((255,255,255))
-        pygame.draw.rect(self.mainscreen,(0,0,0),(0,self.height-150,self.width,150),0)
-        pygame.draw.line(self.mainscreen,(255,255,255),(200,self.height-150),(200,self.height),2)
-        pygame.draw.line(self.mainscreen,(255,255,255),(500,self.height-150),(500,self.height),1)
-        #Title of each box
-        texttower = self.font.render("Towers",True, (255,255,255))
-        self.mainscreen.blit(texttower,(90,515))
+    	
+        # Make background of interface 
+        mapscreen = pygame.image.load("assets/" + "mapscreen.png").convert()
+        self.mainscreen.blit(mapscreen,(0,0))
+        
         #To see variables on screen
         self.towerRect.center = (40,550)
         self.mainscreen.blit(self.towerimg,self.towerRect)
+        
         #Money
-        moneytext = self.font.render("Money: "+ str(self.money),True, (255,255,255))
-        self.mainscreen.blit(moneytext,(self.width-150,530))
+        moneytext = self.font.render(str(self.money),True, (255,255,255))
+        self.mainscreen.blit(moneytext,(175,510))
         #Health
-        healthtext = self.font.render("Health: "+ str(self.health),True, (255,255,255))
-        self.mainscreen.blit(healthtext,(self.width-150,550))
+        healthtext = self.font.render(str(self.health),True, (255,255,255))
+        self.mainscreen.blit(healthtext,(175,585))
+        
+        
     def gameLost(self):
+    	# Make background of gamelost 
         endmenu = pygame.image.load('assets/' + "endpage.png").convert()
         self.endmenu = pygame.transform.scale(self.endmenu,(self.width,self.height))
         self.mainscreen.blit(self.endmenu,(0,0))
+        
+        
     def mainLoop(self):
         #Creates the main game loop
         self.startMenu() #Creates the menu
+        
         alive = True #Run loop
         while alive:
             #Creating main loop
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     alive = False
+                    
                 if event.type == MOUSEBUTTONDOWN:
-                    #Start
+                    # Click start button
                     if self.start.collidepoint(pygame.mouse.get_pos()):
                         self.interface()
                     #To get Tower
