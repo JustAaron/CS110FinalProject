@@ -3,17 +3,17 @@ import pygame
 from pygame.locals import *
 
 class Bullet(pygame.sprite.Sprite):
-    def __int__(self,x,y,speed,enemypos,damage,img_file):
+    def __int__(self,x,y,speed,enemypos,damage,img_file, angle):
         """Class creates bullet""" #enemypos is tuple with x and y
         #Initializing variables in the bullet class
         self.x = x
         self.y = y
         self.damage = damage
         self.speed = speed
-        self.angle = math.sin((enemypos[0]-self.rect.x)**2)/dist)
+        self.angle = angle
         
         #Creating image and rect
-        self.image = pygame.image.load('assets/' + img_file).convert_alpha())
+        self.image = pygame.image.load('assets/' + img_file).convert_alpha()
         self.rect = self.image.get_rect()
             
     def to_invader(self):
