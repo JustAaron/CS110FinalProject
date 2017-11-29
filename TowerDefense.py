@@ -25,6 +25,8 @@ class Controller:
         self.invader = []
         self.bullets = []
         self.towericon = False
+        # make a sprites Group
+        self.sprites = pygame.sprite.Group(tuple(self.tower)) # add invaders 
         
         #Fonts
         self.largefont = pygame.font.SysFont('arial',40,True)
@@ -87,15 +89,15 @@ class Controller:
                         self.interface()
                     #To get Tower
                     elif self.towerRect.collidepoint(pygame.mouse.get_pos()):
-                        if (self.money >= tower.Tower("tower.png").cost):
-                            self.tower.append(tower.Tower("tower.png"))
-                            self.money -= tower.Tower("tower.png").cost
-                            new_tower = self.tower[-1]
+                        if (self.money >= tower.Tower("tower.png",pygame.mouse.get_pos()).cost):
+                            self.tower.append(tower.Tower("tower.png", pygame.mouse.get_pos()))
+                            self.money -= tower.Tower("tower.png",pygame.mouse.get_pos()).cost
                             self.towericon = True
-                        self.interface()
                 elif event.type == MOUSEMOTION:
+                	# draw the pictures when tower moving with mouse
                     if self.towericon:
-                        new_tower.createicon(self.mainscreen,pygame.mouse.get_pos())
+                    	self.interface() # cover old tower image
+                    	self.sprites.draw(self.mainscreen)  # draw new tower image
                 elif event.type == MOUSEBUTTONUP:
                     if self.towericon:
                         self.towericon = False
@@ -111,7 +113,6 @@ def main():
     main_window.mainLoop()
 
 main()
-
 
 
 
