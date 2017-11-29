@@ -18,7 +18,7 @@ class Invader(pygame.sprite.Sprite):
         self.health = 100
         self.speed = 10
 
-    def move_to_castle(self,screen):
+    def move_to_castle(self,self.direction,screen):
         """Called each frame and moves self.speed pixels"""
         if self.direction == "right":
             self.rect.x += self.speed
