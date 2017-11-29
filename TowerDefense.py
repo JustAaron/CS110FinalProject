@@ -48,7 +48,6 @@ class Controller:
 
 
     def interface(self):
-    	
         # Make background of interface 
         mapscreen = pygame.image.load("assets/" + "mapscreen.png").convert()
         self.mainscreen.blit(mapscreen,(0,0))
@@ -63,8 +62,14 @@ class Controller:
         #Health
         healthtext = self.font.render(str(self.health),True, (255,255,255))
         self.mainscreen.blit(healthtext,(175,585))
-        
-        
+    
+    
+    def instruction_Menu(self):
+    	# Make background of instruction menu
+    	instructionima = pygame.image.load('assets/' + "instruction.png").convert()
+    	self.mainscreen.blit(instructionima,(0,0))
+    	
+    	
     def gameLost(self):
     	# Make background of gamelost 
         endmenu = pygame.image.load('assets/' + "endpage.png").convert()
@@ -72,40 +77,70 @@ class Controller:
         self.mainscreen.blit(self.endmenu,(0,0))
         
         
-    def mainLoop(self):
-        #Creates the main game loop
-        self.startMenu() #Creates the menu
-        
-        alive = True #Run loop
-        while alive:
-            #Creating main loop
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    alive = False
-                    
-                if event.type == MOUSEBUTTONDOWN:
-                    # Click start button
-                    if self.start.collidepoint(pygame.mouse.get_pos()):
-                        self.interface()
+        	
+    def instructionMenuScr(self):	
+        while self.instruction_Menu_Scr:
+        	self.instruction_Menu() #Creates the instruction menu screen
+        	pygame.display.flip()
+        	
+    def gamemapScr(self):	
+        while self.gamemap_Scr:
+        	self.interface() #Creates the game menu screen
+        	
+        	for event in pygame.event.get():
+        		if event.type == pygame.QUIT:
+        			return pygame.quit()
+        	pygame.display.flip()
+    
+    
+    def startMenuScr(self):   
+        while self.start_Menu_Scr:
+        	self.startMenu() #Creates the start menu screen
+        	
+        	for event in pygame.event.get():
+        		if event.type == pygame.QUIT:
+        			return pygame.quit()
+        			
+        		if event.type == MOUSEBUTTONDOWN:
+        			# Click start button
+        			if self.start.collidepoint(pygame.mouse.get_pos()):
+        				return self.gamemapScr()
+        				
+        			#if self.????.collidepoint(pygame.mouse.get_pos()):
+        				#self.instruction_Menu_Scr = True
+        				#self.start_Menu_Scr = False
+        	pygame.display.flip()
+        	
+        	'''   
                     #To get Tower
                     elif self.towerRect.collidepoint(pygame.mouse.get_pos()):
                         if (self.money >= tower.Tower("tower.png",pygame.mouse.get_pos()).cost):
                             self.tower.append(tower.Tower("tower.png", pygame.mouse.get_pos()))
+                            self.sprites.add(self.tower)
                             self.money -= tower.Tower("tower.png",pygame.mouse.get_pos()).cost
                             self.towericon = True
                 elif event.type == MOUSEMOTION:
                 	# draw the pictures when tower moving with mouse
                     if self.towericon:
+                    	self.sprites.update()
                     	self.interface() # cover old tower image
                     	self.sprites.draw(self.mainscreen)  # draw new tower image
                 elif event.type == MOUSEBUTTONUP:
                     if self.towericon:
                         self.towericon = False
-        
-            self.clock.tick(60)
-            pygame.display.flip()
         if self.health == 0:
-            self.gameLost()
+            self.gameLost()'''
+    def mainLoop(self):
+        #Creates the main game loop
+        
+        # set different menu loop
+        self.start_Menu_Scr = True
+        self.instruction_Menu_Scr =True
+        self.gamemap_Scr = True
+        self.endpage_Scr = False
+        self.winpage_Scr = False 
+        
+        self.startMenuScr()
         pygame.quit()
 
 def main():
