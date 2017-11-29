@@ -93,22 +93,23 @@ class Controller:
         		if event.type == pygame.QUIT:
         			return pygame.quit()
         		
-        		# move tower	
+        		# move tower and lose money
         		elif event.type == MOUSEBUTTONDOWN and self.towerRect.collidepoint(pygame.mouse.get_pos()):
         			if self.money >= tower.Tower(mousepos).cost:
         				self.tower.append(tower.Tower(mousepos))
         				self.sprites.add(self.tower)
         				self.tower[-1].ablemove = True
-        				print(list(self.tower))
         				
         		elif event.type == MOUSEMOTION and self.tower != []:
         				if self.tower[-1].ablemove == True:
         					self.tower[-1].followmouse(mousepos_change)
         						
         		elif event.type == MOUSEBUTTONUP and self.tower != []:
-        				self.tower[-1].ablemove = False
+        				if self.tower[-1].ablemove == True:
+        					self.money -= self.tower[-1].cost
+        					self.tower[-1].ablemove = False
         				
-        	
+        	# upload the image 
         	self.interface()			
         	self.sprites.draw(self.mainscreen)		
         	pygame.display.flip()
@@ -133,22 +134,6 @@ class Controller:
         	pygame.display.flip()
         	
         	'''   
-                    #To get Tower
-                    elif self.towerRect.collidepoint(pygame.mouse.get_pos()):
-                        if (self.money >= tower.Tower("tower.png",pygame.mouse.get_pos()).cost):
-                            self.tower.append(tower.Tower("tower.png", pygame.mouse.get_pos()))
-                            self.sprites.add(self.tower)
-                            self.money -= tower.Tower("tower.png",pygame.mouse.get_pos()).cost
-                            self.towericon = True
-                elif event.type == MOUSEMOTION:
-                	# draw the pictures when tower moving with mouse
-                    if self.towericon:
-                    	self.sprites.update()
-                    	self.interface() # cover old tower image
-                    	self.sprites.draw(self.mainscreen)  # draw new tower image
-                elif event.type == MOUSEBUTTONUP:
-                    if self.towericon:
-                        self.towericon = False
         if self.health == 0:
             self.gameLost()
             '''
