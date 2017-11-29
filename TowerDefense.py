@@ -92,6 +92,7 @@ class Controller:
         		# quit
         		if event.type == pygame.QUIT:
         			return pygame.quit()
+        		
         		# move tower	
         		elif event.type == MOUSEBUTTONDOWN and self.towerRect.collidepoint(pygame.mouse.get_pos()):
         			if self.money >= tower.Tower(mousepos).cost:
@@ -103,8 +104,7 @@ class Controller:
         		elif event.type == MOUSEMOTION and self.tower != []:
         				if self.tower[-1].ablemove == True:
         					self.tower[-1].followmouse(mousepos_change)
-        				
-        				
+        						
         		elif event.type == MOUSEBUTTONUP and self.tower != []:
         				self.tower[-1].ablemove = False
         				
