@@ -1,6 +1,7 @@
 import pygame
 import bullet
 import math
+import invader
 #import path
 #import time
 
@@ -32,6 +33,8 @@ class Tower:
             for j in range(len(pathObj.paths[i])):
                 if(pathObj.paths[i][j] == 0 and pos[0] / 50 <= i + 1 and pos[0] / 50 >= i and pos[1] / 50 <= j + 1 and pos[1] / 50 >= j):
                     pathObj.paths[i][j] = -2
+                    self.rect.x = i * 50
+                    self.rect.y = j * 50
 
     #def place_tower(self):
         
