@@ -24,7 +24,6 @@ class Controller:
         self.tower = []
         self.invader = []
         self.bullets = []
-        self.towericon = False
         # make a sprites Group
         self.sprites = pygame.sprite.Group(tuple(self.tower)) # add invaders 
         
@@ -86,10 +85,32 @@ class Controller:
     def gamemapScr(self):	
         while self.gamemap_Scr:
         	self.interface() #Creates the game menu screen
+        	mousepos = (pygame.mouse.get_pos())
+        	mousepos_change = (pygame.mouse.get_rel())
         	
         	for event in pygame.event.get():
+        		# quit
         		if event.type == pygame.QUIT:
         			return pygame.quit()
+        		# move tower	
+        		elif event.type == MOUSEBUTTONDOWN and self.towerRect.collidepoint(pygame.mouse.get_pos()):
+        			if self.money >= tower.Tower(mousepos).cost:
+        				self.tower.append(tower.Tower(mousepos))
+        				self.sprites.add(self.tower)
+        				self.tower[-1].ablemove = True
+        				print(list(self.tower))
+        				
+        		elif event.type == MOUSEMOTION and self.tower != []:
+        				if self.tower[-1].ablemove == True:
+        					self.tower[-1].followmouse(mousepos_change)
+        				
+        				
+        		elif event.type == MOUSEBUTTONUP and self.tower != []:
+        				self.tower[-1].ablemove = False
+        				
+        	
+        	self.interface()			
+        	self.sprites.draw(self.mainscreen)		
         	pygame.display.flip()
     
     
@@ -129,7 +150,8 @@ class Controller:
                     if self.towericon:
                         self.towericon = False
         if self.health == 0:
-            self.gameLost()'''
+            self.gameLost()
+            '''
     def mainLoop(self):
         #Creates the main game loop
         
