@@ -101,13 +101,13 @@ class Controller:
         				self.tower[-1].ablemove = True
         				
         		elif event.type == MOUSEMOTION and self.tower != []:
-        				if self.tower[-1].ablemove == True:
-        					self.tower[-1].followmouse(mousepos_change)
+        			if self.tower[-1].ablemove == True:
+        				self.tower[-1].followmouse(mousepos_change)
         						
         		elif event.type == MOUSEBUTTONUP and self.tower != []:
-        				if self.tower[-1].ablemove == True:
-        					self.money -= self.tower[-1].cost
-        					self.tower[-1].ablemove = False
+        			if self.tower[-1].ablemove == True:
+        				self.money -= self.tower[-1].cost
+        				self.tower[-1].ablemove = False
         				
         	# upload the image 
         	self.interface()			
