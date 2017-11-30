@@ -37,8 +37,6 @@ class Tower(pygame.sprite.Sprite):
     				self.rect.x = i * 50
     				self.rect.y = j * 50
     				
-    	#def place_tower(self):
-    	
     	
     def upgrade(self,playermoney,cost,img_file):
     	if (playermoney > self.towercost):
