@@ -3,30 +3,30 @@ from pygame.locals import *
 
 class Invader(pygame.sprite.Sprite):
     """Class represents the slimes that appear each wave"""
-    def __init__(self,spawningpoint):
+    def __init__(self,img_file,spawningpoint):
         """Creates invader and initial positions"""
         pygame.sprite.Sprite.__init__(self)
         
         #Puts image into the invader
-        #self.image = pygame.image.load('assets/' + img_file).convert_alpha()
-        
+        image = pygame.image.load('assets/' + img_file).convert_alpha()
+        self.image = pygame.transform.scale(image,(20,20))
         #Maintains reference to rectangle/allows movement
         self.rect = self.image.get_rect()
         self.rect.x = spawningpoint[0]
         self.rect.y = spawningpoint[1]
         #Stats of the Invaders
         self.health = 100
-        self.speed = 10
+        self.speed = 30
         self.location = 1
         
     def path(self):
-        if (self.rect[1] == 80) and (10 <= self.rect[0] <=130):
+        if (self.rect[1] == 80) and (10 <= self.rect[0] <=140):
             return "right"
-        elif (self.rect[0] == 160) and (80 <= self.rect[1] <= 290):
+        elif (self.rect[0] == 170) and (80 <= self.rect[1] <= 290):
             return "down"
-        elif (self.rect[1] == 320) and (160 <= self.rect[0] <= 280):
+        elif (self.rect[1] == 320) and (170 <= self.rect[0] <= 290):
             return "right"
-        elif (self.rect[0] == 310) and (120 <= self.rect[1] <= 320):
+        elif (self.rect[0] == 320) and (120 <= self.rect[1] <= 320):
             return "up"
         elif (self.rect[1] == 110) and (310 <= self.rect[0] <= 650):
             return "right"
@@ -39,9 +39,9 @@ class Invader(pygame.sprite.Sprite):
         elif self.direction == "left":
             self.rect.x -= self.speed
         elif self.direction == "up":
-            self.rect.y += self.speed
-        elif self.direction == "down":
             self.rect.y -= self.speed
+        elif self.direction == "down":
+            self.rect.y += self.speed
             
     def update(self):
         screen.blit(self.image,(self.rect))
@@ -58,7 +58,6 @@ class Invader(pygame.sprite.Sprite):
             return "right"
         elif(startXY[i] > nextXY[i] and startXY[j] == nextXY[j]):
             return "left"
-        print("something went wrong with pathing")
-        return "down"
+        
 
 
