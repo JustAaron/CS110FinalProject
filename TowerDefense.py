@@ -28,14 +28,23 @@ class Controller:
         self.sprites = pygame.sprite.Group(tuple(self.tower)) # add invaders 
         
         #Fonts
-        self.largefont = pygame.font.SysFont('arial',40,True)
+        self.largefont = pygame.font.SysFont('arial',100,True)
         self.font = pygame.font.SysFont('arial',30,True)
         """Image/Text and rect"""
+        
+        
+        # Create Button 
         #Start button
         self.start = pygame.draw.rect(self.mainscreen,(255,255,255),(260,245,180,100))
-        #Tower
+    	#Tower button
         self.towerimg = pygame.image.load('assets/' + "tower.png").convert()
         self.towerRect = self.towerimg.get_rect()
+        #Instruction button
+        self.instruction_button = pygame.draw.ellipse(self.mainscreen,(255,255,255),(565,570,40,65))
+        #Mainmenu button
+        self.mainmenu_button = pygame.draw.rect(self.mainscreen,(255,255,255),(225,450,250,100))
+    
+    
     
     def startMenu(self):
         #Create background, and text on background
@@ -80,7 +89,17 @@ class Controller:
     def instructionMenuScr(self):	
         while self.instruction_Menu_Scr:
         	self.instruction_Menu() #Creates the instruction menu screen
+        	
+        	for event in pygame.event.get():
+        		# quit
+        		if event.type == pygame.QUIT:
+        			return pygame.quit()
+        		if self.mainmenu_button.collidepoint(pygame.mouse.get_pos()):
+        			return self.startMenuScr()
+        		
+        		# Click the 
         	pygame.display.flip()
+        	
         	
     def gamemapScr(self):	
         while self.gamemap_Scr:
@@ -127,7 +146,9 @@ class Controller:
         			# Click start button
         			if self.start.collidepoint(pygame.mouse.get_pos()):
         				return self.gamemapScr()
-        				
+        			# Click instruction button	
+        			if self.instruction_button.collidepoint(pygame.mouse.get_pos()):
+        				return self.instructionMenuScr()
         			#if self.????.collidepoint(pygame.mouse.get_pos()):
         				#self.instruction_Menu_Scr = True
         				#self.start_Menu_Scr = False
