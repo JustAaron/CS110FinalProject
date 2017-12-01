@@ -43,6 +43,8 @@ class Controller:
         self.instruction_button = pygame.draw.ellipse(self.mainscreen,(255,255,255),(565,570,40,65))
         #Mainmenu button
         self.mainmenu_button = pygame.draw.rect(self.mainscreen,(255,255,255),(225,450,250,100))
+        #Wave Button
+        self.wave =  pygame.draw.rect(self.mainscreen,(255,255,255),(550,550,100,100))
     
     
     
@@ -101,7 +103,8 @@ class Controller:
         	pygame.display.flip()
         	
         	
-    def gamemapScr(self):	
+    def gamemapScr(self):
+        self.inWave = False
         while self.gamemap_Scr:
         	self.interface() #Creates the game menu screen
         	mousepos = (pygame.mouse.get_pos())
@@ -127,6 +130,30 @@ class Controller:
         			if self.tower[-1].ablemove == True:
         				self.money -= self.tower[-1].cost
         				self.tower[-1].ablemove = False
+                #WAVE BUTTON CLICKED
+				elif event.type == MOUSEBUTTONDOWN and self.wave.collidepoint(mousepos):
+					if self.inWave == False:
+						self.inWave = True
+						self.wavenum += 1
+						self.invadernum += 5
+			#INVADERS IN WAVE
+			if self.inWave == True:
+				if len(self.invader) != self.invadernum:
+					slime = invader.Invader("slime.png", (20,90))
+					self.invader.append(slime)
+					self.sprites.add(self.invader)
+				elif len(self.invader) == self.invadernum:
+					self.inWave = False
+			#INVADER MOVEMENT
+			for monsters in self.invader:
+				direction = monsters.path()
+				monsters.move(direction)
+				self.sprites.draw(self.mainscreen)
+				pygame.time.delay(20)
+				if monsters.rect == (670,110,20,20):
+					self.health -= 1
+					self.sprites.remove(monsters)
+					self.invader.remove(monsters)
         				
         	# upload the image 
         	self.interface()			
