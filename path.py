@@ -56,5 +56,11 @@ Return: tuple
         for i in range(len(self.paths)):
             for j in range(len(self.paths[i])):
                 if(pathNumber == self.paths[i][j]):
-                    return (i, j)
+                    return (j, i)
         return (-1, -1)
+'''
+def main():
+    p = Path()
+    print(p.getPathXY(1))
+main()
+'''
