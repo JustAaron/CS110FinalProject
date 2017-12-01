@@ -18,6 +18,18 @@ class Invader(pygame.sprite.Sprite):
         self.health = 100
         self.speed = 10
         self.location = 1
+        
+    def path(self):
+        if (self.rect[1] == 80) and (10 <= self.rect[0] <=130):
+            return "right"
+        elif (self.rect[0] == 160) and (80 <= self.rect[1] <= 290):
+            return "down"
+        elif (self.rect[1] == 320) and (160 <= self.rect[0] <= 280):
+            return "right"
+        elif (self.rect[0] == 310) and (120 <= self.rect[1] <= 320):
+            return "up"
+        elif (self.rect[1] == 110) and (310 <= self.rect[0] <= 650):
+            return "right"
 
     def move(self, direction):
         """Called each frame and moves self.speed pixels"""
