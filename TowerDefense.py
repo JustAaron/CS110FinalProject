@@ -30,7 +30,7 @@ class Controller:
 		#Fonts
 		self.largefont = pygame.font.SysFont('arial',100,True)
 		self.font = pygame.font.SysFont('arial',30,True)
-
+		
 		"""Image/Text and rect"""
 		# Create Button
 		#Start button
@@ -40,10 +40,14 @@ class Controller:
 		self.towerRect = self.towerimg.get_rect()
 		#Instruction button
 		self.instruction_button = pygame.draw.ellipse(self.mainscreen,(255,255,255),(565,570,40,65))
+		#Sound button
+		self.sound_button = pygame.draw.ellipse(self.mainscreen,(255,255,255),(635,575,50,60))# fix
 		#Mainmenu button
 		self.mainmenu_button = pygame.draw.rect(self.mainscreen,(255,255,255),(225,450,250,100))
-		#Wave Button
-		self.wave =  pygame.draw.rect(self.mainscreen,(255,255,255),(550,550,100,100))
+		#Wave Start Button
+		self.wave_start_button = pygame.draw.circle(self.mainscreen,(255,255,255),(564,606),44)
+		#Restart Button
+		self.restart_button = pygame.draw.rect(self.mainscreen,(255,255,255),(260,245,180,100))
     
     
     
@@ -130,7 +134,7 @@ class Controller:
 						self.money -= self.tower[-1].cost
 						self.tower[-1].ablemove = False
 
-				elif event.type == MOUSEBUTTONDOWN and self.wave.collidepoint(mousepos):
+				elif event.type == MOUSEBUTTONDOWN and self.wave_start_button.collidepoint(mousepos):
 					if self.inWave == False:
 						self.inWave = True
 						self.wavenum += 1
@@ -203,8 +207,3 @@ def main():
 	main_window.mainLoop()
 
 main()
-
-
-
-
-                                              
