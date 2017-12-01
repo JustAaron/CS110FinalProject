@@ -56,7 +56,7 @@ Return: tuple
         for i in range(len(self.paths)):
             for j in range(len(self.paths[i])):
                 if(pathNumber == self.paths[i][j]):
-                    return (j, i)
+                    return (j * 50, i * 50)
         return (-1, -1)
 '''
 def main():
