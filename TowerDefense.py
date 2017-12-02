@@ -8,6 +8,7 @@ from pygame.locals import *
 
 class Controller:
 	def __init__(self,width=700,height=650):
+		pygame.mixer.init()
 		pygame.init() #Calls the init
 		self.width = width
 		self.height = height
@@ -25,14 +26,18 @@ class Controller:
 		self.invader = []
 		self.bullets = []
 		# make a sprites Group
-		self.sprites = pygame.sprite.Group(tuple(self.tower)) # add invaders
+		self.sprites = pygame.sprite.Group(tuple(self.tower))
 
 		#Fonts
 		self.largefont = pygame.font.SysFont('arial',100,True)
 		self.font = pygame.font.SysFont('arial',30,True)
 		
-		"""Image/Text and rect"""
-		# Create Button
+		# Load and set the sound
+		pygame.mixer.music.load('Daydream.ogg')
+		pygame.mixer.music.set_volume(0.5)
+		self.soundcanplay = False
+
+
 		#Start button
 		self.start = pygame.draw.rect(self.mainscreen,(255,255,255),(260,245,180,100))
 		#Tower button
@@ -48,8 +53,6 @@ class Controller:
 		self.wave_start_button = pygame.draw.circle(self.mainscreen,(255,255,255),(564,606),44)
 		#Restart Button
 		self.restart_button = pygame.draw.rect(self.mainscreen,(255,255,255),(260,245,180,100))
-    
-    
     
 	def startMenu(self):
 		#Create background, and text on background
@@ -87,9 +90,17 @@ class Controller:
 		endmenu = pygame.image.load('assets/' + "endpage.png").convert()
 		self.endmenu = pygame.transform.scale(self.endmenu,(self.width,self.height))
 		self.mainscreen.blit(self.endmenu,(0,0))
-        
-        
-        	
+		
+		
+ 	# Sound controller 
+	def soundplay(self):
+		if self.soundcanplay == True:
+			pygame.mixer.music.play(-1)
+		
+		if self.soundcanplay == False:
+			pygame.mixer.music.stop()
+		
+	
 	def instructionMenuScr(self):
 		while self.instruction_Menu_Scr:
 			self.instruction_Menu() #Creates the instruction menu screen
@@ -98,8 +109,10 @@ class Controller:
 				# quit
 				if event.type == pygame.QUIT:
 					return pygame.quit()
-				if self.mainmenu_button.collidepoint(pygame.mouse.get_pos()):
+				if event.type == MOUSEBUTTONDOWN and self.mainmenu_button.collidepoint(pygame.mouse.get_pos()):
 					return self.startMenuScr()
+				#if self.sound_button.collidepoint(pygame.mouse.get_pos()):
+					
 		
 			pygame.display.flip()
         	
@@ -139,6 +152,7 @@ class Controller:
 						self.inWave = True
 						self.wavenum += 1
 						self.invadernum += 5
+			
 			#INVADERS IN WAVE
 			if self.inWave == True:
 				if len(self.invader) != self.invadernum:
@@ -147,6 +161,7 @@ class Controller:
 					self.sprites.add(self.invader)
 				elif len(self.invader) == self.invadernum:
 					self.inWave = False
+			
 			#INVADER MOVEMENT
 			for monsters in self.invader:
 				direction = monsters.path()
@@ -177,12 +192,18 @@ class Controller:
 					# Click start button
 					if self.start.collidepoint(pygame.mouse.get_pos()):
 						return self.gamemapScr()
+					
 					# Click instruction button
 					if self.instruction_button.collidepoint(pygame.mouse.get_pos()):
 						return self.instructionMenuScr()
-					#if self.????.collidepoint(pygame.mouse.get_pos()):
-						#self.instruction_Menu_Scr = True
-						#self.start_Menu_Scr = False
+					
+					# Click sound button -- play and stop the sound
+					if self.sound_button.collidepoint(pygame.mouse.get_pos()):
+						if self.soundcanplay == False:
+							self.soundcanplay = True
+						elif self.soundcanplay == True:
+							self.soundcanplay = False
+						self.soundplay()
 			pygame.display.flip()
 		
 			'''
