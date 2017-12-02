@@ -37,7 +37,7 @@ class Controller:
 		pygame.mixer.music.set_volume(0.5)
 		self.soundcanplay = False
 
-
+	################################################
 		#Start button
 		self.start = pygame.draw.rect(self.mainscreen,(255,255,255),(260,245,180,100))
 		#Tower button
@@ -50,10 +50,13 @@ class Controller:
 		#Mainmenu button
 		self.mainmenu_button = pygame.draw.rect(self.mainscreen,(255,255,255),(225,450,250,100))
 		#Wave Start Button
-		self.wave_start_button = pygame.draw.circle(self.mainscreen,(255,255,255),(564,606),44)
+		self.wave_start_button = pygame.draw.circle(self.mainscreen,(255,255,255),(605,560),44)
 		#Restart Button
 		self.restart_button = pygame.draw.rect(self.mainscreen,(255,255,255),(260,245,180,100))
-    
+		
+		
+		
+    ##################################################
 	def startMenu(self):
 		#Create background, and text on background
 		pygame.mouse.set_visible(True)
@@ -88,10 +91,10 @@ class Controller:
 	def gameLost(self):
 		# Make background of gamelost
 		endmenu = pygame.image.load('assets/' + "endpage.png").convert()
-		self.endmenu = pygame.transform.scale(self.endmenu,(self.width,self.height))
+		self.endmenu = pygame.transform.scale(endmenu,(self.width,self.height))
 		self.mainscreen.blit(self.endmenu,(0,0))
 		
-		
+	####################################################	
  	# Sound controller 
 	def soundplay(self):
 		if self.soundcanplay == True:
@@ -99,6 +102,33 @@ class Controller:
 		
 		if self.soundcanplay == False:
 			pygame.mixer.music.stop()
+		
+	#####################################################
+	def endpageScr(self):
+		while self.endpage_Scr:
+			self.gameLost()
+			
+			for event in pygame.event.get():
+				# quit
+				if event.type == pygame.QUIT:
+					return pygame.quit()
+				
+				if event.type == MOUSEBUTTONDOWN:
+					# Click the restart button
+					if self.restart_button.collidepoint(pygame.mouse.get_pos()):
+						return self.startMenuScr()
+					# Click instruction button
+					if self.instruction_button.collidepoint(pygame.mouse.get_pos()):
+						self.whereClickInstructionMenu = 2
+						return self.instructionMenuScr()
+					# Click sound button -- play and stop the sound
+					if self.sound_button.collidepoint(pygame.mouse.get_pos()):
+						if self.soundcanplay == False:
+							self.soundcanplay = True
+						elif self.soundcanplay == True:
+							self.soundcanplay = False
+						self.soundplay()	
+			pygame.display.flip()
 		
 	
 	def instructionMenuScr(self):
@@ -109,11 +139,15 @@ class Controller:
 				# quit
 				if event.type == pygame.QUIT:
 					return pygame.quit()
-				if event.type == MOUSEBUTTONDOWN and self.mainmenu_button.collidepoint(pygame.mouse.get_pos()):
-					return self.startMenuScr()
-				#if self.sound_button.collidepoint(pygame.mouse.get_pos()):
 					
-		
+				# Click the Mainmenu button and return to the main screen
+				if event.type == MOUSEBUTTONDOWN: 
+					if self.mainmenu_button.collidepoint(pygame.mouse.get_pos()):
+						if self.whereClickInstructionMenu == 1:
+							return self.startMenuScr()
+						if self.whereClickInstructionMenu == 2:
+							return self.endpageScr()
+			
 			pygame.display.flip()
         	
         	
@@ -121,22 +155,39 @@ class Controller:
 		self.wavenum = 0
 		self.invadernum = 5
 		self.inWave = False
+		
 		while self.gamemap_Scr:
 			self.interface() #Creates the game menu screen
 			mousepos = (pygame.mouse.get_pos())
 			mousepos_change = (pygame.mouse.get_rel())
+			
+			# Game loss and return to the endpage
+			if self.health == 0:
+				self.health = 20
+				self.money = 500
+				self.tower = []
+				self.invader = []
+				self.bullets = []
+				self.sprites.empty()
+				return self.endpageScr()
         	
 			for event in pygame.event.get():
 				# quit
 				if event.type == pygame.QUIT:
 					return pygame.quit()
-
+					
 				# move tower and lose money
-				elif event.type == MOUSEBUTTONDOWN and self.towerRect.collidepoint(pygame.mouse.get_pos()):
-					if self.money >= tower.Tower(mousepos).cost:
-						self.tower.append(tower.Tower(mousepos))
-						self.sprites.add(self.tower)
-						self.tower[-1].ablemove = True
+				elif event.type == MOUSEBUTTONDOWN:
+					if self.towerRect.collidepoint(pygame.mouse.get_pos()):
+						if self.money >= tower.Tower(mousepos).cost:
+							self.tower.append(tower.Tower(mousepos))
+							self.sprites.add(self.tower)
+							self.tower[-1].ablemove = True
+					if self.wave_start_button.collidepoint(mousepos):
+						if self.inWave == False:
+							self.inWave = True
+							self.wavenum += 1
+							self.invadernum += 5
 					
 				elif event.type == MOUSEMOTION and self.tower != []:
 					if self.tower[-1].ablemove == True:
@@ -144,15 +195,11 @@ class Controller:
 
 				elif event.type == MOUSEBUTTONUP and self.tower != []:
 					if self.tower[-1].ablemove == True:
+					
 						self.money -= self.tower[-1].cost
 						self.tower[-1].ablemove = False
 
-				elif event.type == MOUSEBUTTONDOWN and self.wave_start_button.collidepoint(mousepos):
-					if self.inWave == False:
-						self.inWave = True
-						self.wavenum += 1
-						self.invadernum += 5
-			
+
 			#INVADERS IN WAVE
 			if self.inWave == True:
 				if len(self.invader) != self.invadernum:
@@ -167,7 +214,7 @@ class Controller:
 				direction = monsters.path()
 				print(direction)
 				monsters.move(direction)
-				self.sprites.draw(self.mainscreen)
+				#self.sprites.draw(self.mainscreen)
 				pygame.time.delay(20)
 				if monsters.rect == (680,110,20,20):
 					self.health -= 1
@@ -195,6 +242,7 @@ class Controller:
 					
 					# Click instruction button
 					if self.instruction_button.collidepoint(pygame.mouse.get_pos()):
+						self.whereClickInstructionMenu = 1
 						return self.instructionMenuScr()
 					
 					# Click sound button -- play and stop the sound
@@ -205,11 +253,7 @@ class Controller:
 							self.soundcanplay = False
 						self.soundplay()
 			pygame.display.flip()
-		
-			'''
-			if self.health == 0:
-				self.gameLost()
-			'''
+
 	def mainLoop(self):
 		#Creates the main game loop
 		
@@ -217,8 +261,9 @@ class Controller:
 		self.start_Menu_Scr = True
 		self.instruction_Menu_Scr =True
 		self.gamemap_Scr = True
-		self.endpage_Scr = False
-		self.winpage_Scr = False
+		self.endpage_Scr = True
+		self.winpage_Scr = True
+		self.whereClickInstructionMenu = 0
 		
 		self.startMenuScr()
 		pygame.quit()
