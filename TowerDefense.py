@@ -187,8 +187,9 @@ class Controller:
 					if self.wave_start_button.collidepoint(mousepos):
 						if self.inWave == False:
 							self.inWave = True
+							self.num = 0
 							self.wavenum += 1
-							self.invadernum += 5
+							self.invadernum = ((self.wavenum*3)+3)
 					
 				elif event.type == MOUSEMOTION and self.tower != []:
 					if self.tower[-1].ablemove == True:
@@ -202,11 +203,12 @@ class Controller:
 
 			#INVADERS IN WAVE
 			if self.inWave == True:
-				if len(self.invader) != self.invadernum:
+				if self.num<self.invadernum:
 					slime = invader.Invader("slime.png", (20,80))
 					self.invader.append(slime)
 					self.sprites.add(self.invader)
-				elif len(self.invader) == self.invadernum:
+					self.num += 1
+				elif self.num == self.invadernum:
 					self.inWave = False
 			
 			#INVADER MOVEMENT
@@ -214,8 +216,20 @@ class Controller:
 				direction = monsters.getDirection(self.p)
 				print(direction)
 				monsters.move(direction)
-				#self.sprites.draw(self.mainscreen)
 				pygame.time.delay(20)
+				
+				#Invaders in Tower Range get Shot
+				for defenders in self.tower:
+					if defenders.inRange(monsters.rect.x,monsters.rect.y):
+						ammo = bullet.Bullet((defenders.rect.center))
+						self.bullets.append(ammo)
+						self.sprites.add(self.bullets)
+								#Bullet MOVEMENT
+				for shoot in self.bullets:
+					#Shoot to invader INPUT HERE
+					monsters.health -= 4
+					self.sprites.remove(shoot)
+					self.bullets.remove(shoot)
 				if monsters.location >= self.p.maxPath:
 					self.health -= 1
 					self.sprites.remove(monsters)
