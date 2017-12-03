@@ -6,16 +6,16 @@ Param: self
 Return: None
         '''
         self.paths = []
-        row1 = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-        row2 = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-        row3 = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-        row4 = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-        row5 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
-        row6 = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-        row7 = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-        row8 = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-        row9 = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-        row10 = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+        row1 = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+        row2 = [1, 2, 3, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+        row3 = [0, 0, 0, 5, 0, 0, 16, 17, 18, 19, 20, 21, 22, 23]
+        row4 = [0, 0, 0, 6, 0, 0, 15, 0, 0, 0, 0, 0, 0, 0]
+        row5 = [0, 0, 0, 7, 0, 0, 14, 0, 0, 0, 0, 0, 0, 0]
+        row6 = [0, 0, 0, 8, 0, 0, 13, 0, 0, 0, 0, 0, 0, 0]
+        row7 = [0, 0, 0, 9, 10, 11, 12, 0, 0, 0, 0, 0, 0, 0]
+        row8 = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+        #row9 = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+        #row10 = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
         self.paths.append(row1)
         self.paths.append(row2)
         self.paths.append(row3)
@@ -24,8 +24,8 @@ Return: None
         self.paths.append(row6)
         self.paths.append(row7)
         self.paths.append(row8)
-        self.paths.append(row9)
-        self.paths.append(row10)
+        #self.paths.append(row9)
+        #self.paths.append(row10)
         self.maxPath = 1
         for i in range(len(self.paths)):
             for j in range(len(self.paths[i])):
@@ -58,6 +58,14 @@ Return: tuple
                 if(pathNumber == self.paths[i][j]):
                     return (j * 50, i * 50)
         return (-1, -1)
+    def isGrass(self, mousePosition):
+        pos = mousePosition
+        for i in range(len(self.paths)):
+            for j in range(len(self.paths[i])):
+                if(self.paths[i][j] == 0 and pos[0] / 50 <= i + 1 and pos[0] / 50 >= i and pos[1] / 50 <= j + 1 and pos[1] / 50 >= j):
+                    return True
+        return False
+
 '''
 def main():
     p = Path()
