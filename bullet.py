@@ -1,29 +1,35 @@
 import pygame
-
 from pygame.locals import *
 
 class Bullet(pygame.sprite.Sprite):
-    def __int__(self,x,y,speed,enemypos,damage,img_file, angle):
-        """Class creates bullet""" #enemypos is tuple with x and y
-        #Initializing variables in the bullet class
-        self.x = x
-        self.y = y
-        self.damage = damage
-        self.speed = speed
-        self.angle = angle
-        
+    """Class creates bullet"""
+    def __init__(self,pos):
+        #initialize all the Sprite functionality
+        pygame.sprite.Sprite.__init__(self)
         #Creating image and rect
-        self.image = pygame.image.load('assets/' + img_file).convert_alpha()
+        self.image = pygame.image.load('assets/' + "bullet.png").convert()
+        self.image = pygame.transform.scale(self.image, (10,10))
         self.rect = self.image.get_rect()
+        #Initial position
+        self.rect.x = pos[0]
+        self.rect.y = pos[1]
+
             
-    def to_invader(self):
+    def to_invader(self,enemypos):
         """Moving position to enemy position"""
         #Finds distance to invader
         dist = ((enemypos[0]-self.rect.x)**2)+((enemypos[1]-self.rect.y)**2)**0.5
         if (dist != 0):
-            self.x -= enemypos[0]*self.speed
-            self.y -= enemypos[1]*self.speed
-                
+            if enemypos[0] > self.rect.x:
+                self.rect.x -= (enemypos[0] + 30)
+            elif enemypos[0] < self.rect.x:
+                self.rect.x += (enemypos[0] + 30)
+            elif enemypos[1] > self.rect.x:
+                self.rect.y -= (enemypos[1]+ 30)
+            elif enemypos[1] < self.rect.x:
+                self.rect.y += (enemypos[1]+ 30)
+
+
 
 
     
