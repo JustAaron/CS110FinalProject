@@ -50,12 +50,10 @@ class Tower(pygame.sprite.Sprite):
     		self.rect = self.image.get_rect()
     	else:
     		return "Unable to upgrade: Money is not enough"
-    		
-    def target(self,enemy):
-    	bullets = []
-    	distanceToEnemy = sqrt((enemy.rect.x - self.rect.x)**2 + (enemy.rect.y - self.rect.y)**2)
+    def inRange(self,enemyX,enemyY):
+    	distanceToEnemy = math.sqrt((enemyX - self.rect.x)**2 + (enemyY - self.rect.y)**2)
     	if (distanceToEnemy < self.radius):
-    		bullets.append(bullet.Bullet(self.rect.x, self.rect.y, (enemy.rect.x, enemy.rect.y), self.damage, "bullet.png", math.sin(((enemypos[0]-self.rect.x)**2)/distanceToEnemy)))
+    		return True
     		
     def get_info(self):
     	self.info = ""
