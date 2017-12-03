@@ -1,6 +1,7 @@
 import invader
 import tower
-import path
+##import path
+import bullet
 import pygame, sys
 from pygame.locals import *
 
@@ -23,7 +24,6 @@ class Controller:
 		self.tower = []
 		self.invader = []
 		self.bullets = []
-		self.p = path.Path()
 		# make a sprites Group
 		self.sprites = pygame.sprite.Group(tuple(self.tower))
 
@@ -174,7 +174,7 @@ class Controller:
 				if event.type == pygame.QUIT:
 					return pygame.quit()
 					
-				# move tower and lose money
+				# Move tower and lose money
 				elif event.type == MOUSEBUTTONDOWN:
 					if self.towerRect.collidepoint(pygame.mouse.get_pos()):
 						if self.money >= tower.Tower(mousepos).cost:
@@ -186,14 +186,14 @@ class Controller:
 							self.inWave = True
 							self.num = 0
 							self.wavenum += 1
-							self.invadernum = ((self.wavenum*3)+3)
+							self.invadernum = ((self.wavenum*2)+8)
 					
 				elif event.type == MOUSEMOTION and self.tower != []:
 					if self.tower[-1].ablemove == True:
 						self.tower[-1].followmouse(mousepos_change)
 
 				elif event.type == MOUSEBUTTONUP and self.tower != []:
-					if self.tower[-1].ablemove == True and self.p.isGrass(mousepos):
+					if self.tower[-1].ablemove == True:
 						self.money -= self.tower[-1].cost
 						self.tower[-1].ablemove = False
 
@@ -210,7 +210,7 @@ class Controller:
 			
 			#INVADER MOVEMENT
 			for monsters in self.invader:
-				direction = monsters.getDirection(self.p)
+				direction = monsters.path()
 				monsters.move(direction)
 				pygame.time.delay(10)
 				
@@ -220,23 +220,26 @@ class Controller:
 						ammo = bullet.Bullet((defenders.rect.center))
 						self.bullets.append(ammo)
 						self.sprites.add(self.bullets)
+
 				#Bullet MOVEMENT
 				for shoot in self.bullets:
-					#Shoot to invader INPUT HERE
 					monsters.health -= 4
 					self.sprites.remove(shoot)
 					self.bullets.remove(shoot)
-					
+						
 					#Monster Killed By Bullets
 					if monsters.health == 0:
 						self.money += 30
 						self.sprites.remove(monsters)
 						self.invader.remove(monsters)
-						
-				if monsters.location >= self.p.maxPath:
+			
+
+				#Health Decreasing when Invade reach castle
+				if monsters.rect == (680,110,20,20):
 					self.health -= 1
 					self.sprites.remove(monsters)
 					self.invader.remove(monsters)
+
 					
 			# upload the image
 			self.interface()
@@ -245,13 +248,14 @@ class Controller:
     
     
 	def startMenuScr(self):
+		self.soundplay()
 		while self.start_Menu_Scr:
 			self.startMenu() #Creates the start menu screen
 			
 			for event in pygame.event.get():
 				if event.type == pygame.QUIT:
 					return pygame.quit()
-
+				
 				if event.type == MOUSEBUTTONDOWN:
 					# Click start button
 					if self.start.collidepoint(pygame.mouse.get_pos()):
