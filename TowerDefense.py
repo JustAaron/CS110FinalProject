@@ -1,8 +1,6 @@
 import invader
 import tower
 import path
-##import castle
-##import spawnpoint
 import pygame, sys
 from pygame.locals import *
 
@@ -36,7 +34,7 @@ class Controller:
 		# Load and set the sound
 		pygame.mixer.music.load('Daydream.ogg')
 		pygame.mixer.music.set_volume(0.5)
-		self.soundcanplay = False
+		self.soundcanplay = True
 
 	################################################
 		#Start button
@@ -154,7 +152,6 @@ class Controller:
         	
 	def gamemapScr(self):
 		self.wavenum = 0
-		self.invadernum = 5
 		self.inWave = False
 		
 		while self.gamemap_Scr:
@@ -214,9 +211,8 @@ class Controller:
 			#INVADER MOVEMENT
 			for monsters in self.invader:
 				direction = monsters.getDirection(self.p)
-				print(direction)
 				monsters.move(direction)
-				pygame.time.delay(20)
+				pygame.time.delay(10)
 				
 				#Invaders in Tower Range get Shot
 				for defenders in self.tower:
@@ -224,12 +220,19 @@ class Controller:
 						ammo = bullet.Bullet((defenders.rect.center))
 						self.bullets.append(ammo)
 						self.sprites.add(self.bullets)
-								#Bullet MOVEMENT
+				#Bullet MOVEMENT
 				for shoot in self.bullets:
 					#Shoot to invader INPUT HERE
 					monsters.health -= 4
 					self.sprites.remove(shoot)
 					self.bullets.remove(shoot)
+					
+					#Monster Killed By Bullets
+					if monsters.health == 0:
+						self.money += 30
+						self.sprites.remove(monsters)
+						self.invader.remove(monsters)
+						
 				if monsters.location >= self.p.maxPath:
 					self.health -= 1
 					self.sprites.remove(monsters)
