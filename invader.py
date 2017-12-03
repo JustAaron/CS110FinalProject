@@ -17,7 +17,7 @@ class Invader(pygame.sprite.Sprite):
         self.rect.y = spawningpoint[1]
         #Stats of the Invaders
         self.health = 100
-        self.speed = 50
+        self.speed = 30
         self.location = 1
         self.p = path.Path()
         
