@@ -332,11 +332,11 @@ class Controller:
 						self.sprites.remove(shoot)
 						self.bullets.remove(shoot)
 						
-					#Monster Killed By Bullets
-					elif monsters.health == 0:
-						self.money += 20
-						self.sprites.remove(monsters)
-						self.invader.remove(monsters)
+						#Monster Killed By Bullets
+						if monsters.health == 0:
+							self.money += 20
+							self.sprites.remove(monsters)
+							self.invader.remove(monsters)
 			
 
 				#Health Decreasing when Invade reach castle
