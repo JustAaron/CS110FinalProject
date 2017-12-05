@@ -140,10 +140,10 @@ class Controller:
 		Returns: none """
 		
 		if self.soundcanplay == True:
-			pygame.mixer.music.pause()
+			pygame.mixer.music.play(-1)
 		
 		elif self.soundcanplay == False:
-			pygame.mixer.music.unpause()
+			pygame.mixer.music.stop()
 	#####################################################
 	def emptyOut(self):
 		"""
