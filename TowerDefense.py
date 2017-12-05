@@ -11,8 +11,9 @@ class Controller:
 		Descr: __init__ sets initial variables,lists,groups,buttons and music for the game
 		Params: self, width/height (int)
 		Returns: none """
-		pygame.mixer.init()
+		
 		pygame.init() #Calls the init
+		pygame.mixer.init()
 		self.width = width
 		self.height = height
         
@@ -169,26 +170,26 @@ class Controller:
 			self.gameWon()
 			
 			for event in pygame.event.get():
-			# quit
-			if event.type == pygame.QUIT:
-				return pygame.quit()
+				# quit
+				if event.type == pygame.QUIT:
+					return pygame.quit()
 			
-			elif event.type == MOUSEBUTTONDOWN:
-				# Click the restart button
-				if self.restart_button.collidepoint(pygame.mouse.get_pos()):
-					return self.startMenuScr()
-				# Click instruction button
-				if self.instruction_button.collidepoint(pygame.mouse.get_pos()):
-					self.whereClickInstructionMenu = 2
-					return self.instructionMenuScr()
-				# Click sound button -- play and stop the sound
-				if self.sound_button.collidepoint(pygame.mouse.get_pos()):
-					if self.soundcanplay == False:
-						self.soundcanplay = True
-					elif self.soundcanplay == True:
-						self.soundcanplay = False
-					self.soundplay()
-		pygame.display.flip()
+				elif event.type == MOUSEBUTTONDOWN:
+					# Click the restart button
+					if self.restart_button.collidepoint(pygame.mouse.get_pos()):
+						return self.startMenuScr()
+					# Click instruction button
+					if self.instruction_button.collidepoint(pygame.mouse.get_pos()):
+						self.whereClickInstructionMenu = 2
+						return self.instructionMenuScr()
+					# Click sound button -- play and stop the sound
+					if self.sound_button.collidepoint(pygame.mouse.get_pos()):
+						if self.soundcanplay == False:
+							self.soundcanplay = True
+						elif self.soundcanplay == True:
+							self.soundcanplay = False
+						self.soundplay()
+			pygame.display.flip()
 			
 	def endpageScr(self):
 		"""
@@ -266,7 +267,7 @@ class Controller:
 			if self.health == 0:
 				self.emptyOut()
 				return self.endpageScr()
-			elif self.wave == 11:
+			elif self.wavenum == 11:
 				self.emptyOut()
 				return self.winpageScr()
         	
@@ -364,7 +365,7 @@ class Controller:
 				if event.type == pygame.QUIT:
 					return pygame.quit()
 				
-				elf event.type == MOUSEBUTTONDOWN:
+				elif event.type == MOUSEBUTTONDOWN:
 					# Click start button
 					if self.start.collidepoint(pygame.mouse.get_pos()):
 						return self.gamemapScr()
