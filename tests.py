@@ -1,119 +1,94 @@
+import pygame
+import invader
+import tower
+import path
+import bullet
+
 def main():
+	pygame.init()
+	screen = pygame.display.set_mode((600,600))
+	pygame.display.set_caption("Tower Defense")
+
 	#Invader
 	print("Testing one Invader----------------------")
-	test_invader = invader.Invader() #Creates object
+	test_invader = invader.Invader("slime.png",(0,100)) #Creates object
+	
 	#############################################
 	print("Positioning test for Invader----------------")
 	#############################################
 	print("Standard LEFT test for Invader----------------")
-	test_invader.moveLeft(2)	
-	assert test_invader.position() == (8,0)
+	test_invader.move("right")
+	assert test_invader.rect == (30,100,20,20)
 	
 	print("Zero Input LEFT test for Invader----------------")
-	test_invader.moveLeft(0)
-	assert test_invader.position() == (8,0)
+	test_invader.move("up")
+	assert test_invader.rect == (30,70,20,20)
 
 	print("Standard UP test for Invader----------------")
-	test_invader.moveUp(2)
-	assert test_invader.position() == (7,2)
+	test_invader.move("down")
+	assert test_invader.rect == (30,100,20,20)
 
 	print("Zero Input UP test for Invader----------------")
-	test_invader.moveUp(0)
-	assert test_invader.position() == (7,2)
-
-	print("Standard DOWN test for Invader----------------")
-	test_invader.moveDown(2)
-	assert test_invader.position() == (7,0)
-
-	print("Zero Input DOWN test for Invader----------------")
-	test_invader.moveDown(0)
-	assert test_invader.position() == (7,0)
-
-	print("Standard RIGHT test for Invader----------------")
-	test_invader.moveUp(2)
-	assert test_invader.position() == (9,0)
-
-	print("Zero Input DOWN test for Invader----------------")
-	test_invader.moveDown(0)
-	assert test_invader.position() == (9,0)
+	test_invader.move("left")
+	assert test_invader.rect == (0,100,20,20)
 	
 	#############################################
-	print("Health Bar Testing for Invader----------------")
+	print("Direction test for Invader----------------")
 	#############################################
-	print("Standard Bullet Shot ----------------")
-	test_invader.getBullet(1)
-	assert test_invader.healthbar() == 95
+	print("Standard First Path")
+	direction = test_invader.getDirection(path.Path())
+	assert direction == "right"
 	
-	print("No Bullet Shot ----------------")
-	test_invader.getBullet(0)
-	assert test_invader.healthbar() == 95
-
-	print("Multiple Bullet Shots ----------------")
-	test_invader.getBullet(2)
-	assert test_invader.healthbar() == 85
 	
-	print("Multiple Bullet Shots ----------------")
-	test_invader.getBullet(5)
-	assert test_invader.healthbar() == 60
+	#Tower
+	print("Testing one Tower ----------------------")
+	test_tower = tower.Tower((0,0)) #Creates object
 	
-	#Castle
-	print("Testing Castle-------------------------")
-	test_castle = castle.Castle()
-	#############################################
-	print("Castle Invasion ---------------")
-	#############################################
-	print("Standard Invader in Castle ---------------")
-	test_castle.getInvader(1)
-	assert test_castle.healthbar() == 95
-	
-	print("Zero Invader in Castle ---------------")
-	test_castle.getInvader(0)
-	assert test_castle.healthbar() == 95
-	print("Multiple Invader in Castle ---------------")
-	test_castle.getInvader(3)
-	assert test_castle.healthbar() == 80
-	
-	#Tower Bullet
-	print("Testing one Bullet ----------------------")
-	test_tower = tower.Tower()
-	test_bullet = bullet.Bullet()
 	############################################
-	print("Testing positioning of bullet ----------------------")
+	print("Testing positioning of tower icon ----------------------")
 	#############################################
-	print("Beginning of Bullet------------------")
-	test_bullet.time(0)
-	assert test_bullet.position() == test_tower.position()
+	print("Following x change----------")
+	test_tower.followmouse((2,0))
+	assert test_tower.rect == (2,0,50,50)
+	
+	print("Following y change----------")
+	test_tower.followmouse((0,5))
+	assert test_tower.rect == (2,5,50,50)
 
-	# Tower
-	print("“######## Testing tower model #########”)
-	test_tower = tower.Tower()
+	print("Following both x and y change---------")
+	test_tower.followmouse((3,5))
+	assert test_tower.rect == (5,10,50,50)
 	
-	print("=====Standal Create bullet Test =====”)
-	test_tower.invader_in_range(True)
-	test_tower.time(5)
-	assert test_tower.create_bullet_number() == 5
+
+	############################################
+	print("Invader in Range ----------------------")
+	#############################################
+	print("Invader in Range---------")
+	range = test_tower.inRange(4,8)
+	assert range == True
+
+	print("Invader NOT in Range---------")
+	notrange = test_tower.inRange(500,200)
+	assert notrange == False
+
+
+
+
+	#Path
+	print("Testing Path --------------------------")
+	test_path = path.Path() #Creates object
+
+	############################################
+	print("Getting Path ----------------------")
+	#############################################
+	print("Coordinates of First Path-------")
+	coordinates = test_path.getPathXY(1)
+	assert coordinates == (0,50)
 	
-	print("=====Start time Create bullet Test =====”)
-	test_tower.invader_in_range(True)
-	test_tower.time(0)
-	assert test_tower.create_bullet_number() == 0
-	      
-	print("===== Fail to Create bullet Test =====”)
-	test_tower.invader_in_range(False)
-	test_tower.time(5)
-	assert test_tower.create_bullet_number() == 0
-	
-	# Spawning_Point
-	print("“######## Testing spawning_point model #########”)
-	test_spawn = spawning_point.Spawning_point()
-	
-	print("=====Standal Create invader Test=====”)
-	test_spawn.time(5)
-	assert test_spawn.invader_number() == 5
-	      
-	print("=====Start time create invader Test=====”)
-	test_spawn.time(0)
-	assert test_spawn.invader_number() == 0
+	print("Coordinates of First Path-------")
+	pathnum = test_path.getNextPath(test_invader)
+	assert pathnum == 2
+
                   
 main()
 
