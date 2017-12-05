@@ -40,6 +40,8 @@ class Tower(pygame.sprite.Sprite):
     	distanceToEnemy = math.sqrt((enemyX - self.rect.x)**2 + (enemyY - self.rect.y)**2)
     	if (distanceToEnemy < self.radius):
     		return True
+        else:
+            return False
     		
     def get_info(self):
     	self.info = ""
