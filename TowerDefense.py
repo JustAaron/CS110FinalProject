@@ -47,7 +47,7 @@ class Controller:
 		#Start button
 		self.start = pygame.draw.rect(self.mainscreen,(255,255,255),(260,245,180,100))
 		#Tower button
-		self.towerimg = pygame.image.load('assets/' + "tower.png").convert()
+		self.towerimg = pygame.image.load('assets/' + "tower.png").convert_alpha()
 		self.towerRect = self.towerimg.get_rect()
 		#Instruction button
 		self.instruction_button = pygame.draw.ellipse(self.mainscreen,(255,255,255),(565,570,40,65))
@@ -90,7 +90,7 @@ class Controller:
 		self.mainscreen.blit(mapscreen,(0,0))
 		
 		#To see variables on screen
-		self.towerRect.center = (40,550)
+		self.towerRect.center = (425,555)
 		self.mainscreen.blit(self.towerimg,self.towerRect)
 		
 		#Money
@@ -140,10 +140,10 @@ class Controller:
 		Returns: none """
 		
 		if self.soundcanplay == True:
-			pygame.mixer.music.play(-1)
+			pygame.mixer.music.unpause()
 		
 		elif self.soundcanplay == False:
-			pygame.mixer.music.stop()
+			pygame.mixer.music.pause()
 	#####################################################
 	def emptyOut(self):
 		"""
@@ -180,7 +180,7 @@ class Controller:
 						return self.startMenuScr()
 					# Click instruction button
 					if self.instruction_button.collidepoint(pygame.mouse.get_pos()):
-						self.whereClickInstructionMenu = 2
+						self.whereClickInstructionMenu = 3
 						return self.instructionMenuScr()
 					# Click sound button -- play and stop the sound
 					if self.sound_button.collidepoint(pygame.mouse.get_pos()):
@@ -244,6 +244,8 @@ class Controller:
 							return self.startMenuScr()
 						elif self.whereClickInstructionMenu == 2:
 							return self.endpageScr()
+						elif self.whereClickInstructionMenu == 3:
+							return self.winpageScr()
 			
 			pygame.display.flip()
         	
@@ -292,10 +294,12 @@ class Controller:
 					
 				elif event.type == MOUSEMOTION and self.tower != []:
 					if self.tower[-1].ablemove == True:
+						self.tower[-1].image = pygame.image.load('assets/' + 'tower2.png').convert_alpha()
 						self.tower[-1].followmouse(mousepos_change)
 
 				elif event.type == MOUSEBUTTONUP and self.tower != []:
 					if self.tower[-1].ablemove == True:
+						self.tower[-1].image = self.towerimg
 						self.money -= self.tower[-1].cost
 						self.tower[-1].ablemove = False
 
@@ -334,7 +338,7 @@ class Controller:
 						
 						#Monster Killed By Bullets
 						if monsters.health == 0:
-							self.money += 20
+							self.money += 5
 							self.sprites.remove(monsters)
 							self.invader.remove(monsters)
 			
@@ -397,6 +401,7 @@ class Controller:
 		self.endpage_Scr = True
 		self.winpage_Scr = True
 		self.whereClickInstructionMenu = 0
+		pygame.mixer.music.play(-1)
 		
 		#creates start menu
 		self.startMenuScr()
