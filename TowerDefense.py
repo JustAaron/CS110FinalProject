@@ -1,12 +1,16 @@
 import invader
 import tower
-##import path
+import path
 import bullet
 import pygame, sys
 from pygame.locals import *
 
 class Controller:
 	def __init__(self,width=700,height=650):
+		"""
+		Descr: __init__ sets initial variables,lists,groups,buttons and music for the game
+		Params: self, width/height (int)
+		Returns: none """
 		pygame.mixer.init()
 		pygame.init() #Calls the init
 		self.width = width
@@ -37,6 +41,8 @@ class Controller:
 		self.soundcanplay = True
 
 	################################################
+		
+		#Buttons 
 		#Start button
 		self.start = pygame.draw.rect(self.mainscreen,(255,255,255),(260,245,180,100))
 		#Tower button
@@ -56,7 +62,14 @@ class Controller:
 		
 		
     ##################################################
+
+	#Screens 
 	def startMenu(self):
+		"""
+		Descr: startMenu sets GUI for menu Screen
+		Params: self		
+		Returns: none """
+		
 		#Create background, and text on background
 		pygame.mouse.set_visible(True)
 		#Background of start menu
@@ -66,6 +79,11 @@ class Controller:
 
 
 	def interface(self):
+		"""
+		Descr: interface sets map and interface for Game Screen
+		Params: self
+		Returns: none """
+		
 		# Make background of interface
 		mapscreen = pygame.image.load("assets/" + "mapscreen.png").convert()
 		self.mainscreen.blit(mapscreen,(0,0))
@@ -82,12 +100,32 @@ class Controller:
 		self.mainscreen.blit(healthtext,(175,585))
 
 	def instruction_Menu(self):
+		"""
+		Descr: instructionMenu sets GUI for menu Screen
+		Params: self
+		Returns: none """
+		
 		# Make background of instruction menu
 		instructionima = pygame.image.load('assets/' + "instruction.png").convert()
 		self.mainscreen.blit(instructionima,(0,0))
 	
+	def gameWon(self):
+		"""
+		Descr: gameWon sets GUI for Win Screen
+		Params: self
+		Returns: none """
+		
+		# Make background of gameWon
+		endmenu = pygame.image.load('assets/' + "winpage.png").convert()
+		self.endmenu = pygame.transform.scale(endmenu,(self.width,self.height))
+		self.mainscreen.blit(self.endmenu,(0,0))
 
 	def gameLost(self):
+		"""
+		Descr:gameLost sets GUI for Game Over Screen
+		Params: self
+		Returns: none """
+		
 		# Make background of gamelost
 		endmenu = pygame.image.load('assets/' + "endpage.png").convert()
 		self.endmenu = pygame.transform.scale(endmenu,(self.width,self.height))
@@ -96,14 +134,68 @@ class Controller:
 	####################################################	
  	# Sound controller 
 	def soundplay(self):
+		"""soundplay turns music off or on
+		Params: self
+		Returns: none """
+		
 		if self.soundcanplay == True:
-			pygame.mixer.music.play(-1)
+			pygame.mixer.music.pause()
 		
-		if self.soundcanplay == False:
-			pygame.mixer.music.stop()
-		
+		elif self.soundcanplay == False:
+			pygame.mixer.music.unpause()
 	#####################################################
+	def emptyOut(self):
+		"""
+		Descr: emptyOut resets initial variables
+		Params: self
+		Returns: none """
+		
+		self.health = 20
+		self.money = 500
+		self.tower = []
+		self.invader = []
+		self.bullets = []
+		self.sprites.empty()
+	#######################################################
+	
+	# Screens with events
+	def winpageScr(self):
+		"""
+		Descr: winpageScr contains events for creating the Win Screen
+		Params: self
+		Returns: none """
+		
+		while self.winpage_Scr:
+			self.gameWon()
+			
+			for event in pygame.event.get():
+			# quit
+			if event.type == pygame.QUIT:
+				return pygame.quit()
+			
+			elif event.type == MOUSEBUTTONDOWN:
+				# Click the restart button
+				if self.restart_button.collidepoint(pygame.mouse.get_pos()):
+					return self.startMenuScr()
+				# Click instruction button
+				if self.instruction_button.collidepoint(pygame.mouse.get_pos()):
+					self.whereClickInstructionMenu = 2
+					return self.instructionMenuScr()
+				# Click sound button -- play and stop the sound
+				if self.sound_button.collidepoint(pygame.mouse.get_pos()):
+					if self.soundcanplay == False:
+						self.soundcanplay = True
+					elif self.soundcanplay == True:
+						self.soundcanplay = False
+					self.soundplay()
+		pygame.display.flip()
+			
 	def endpageScr(self):
+		"""
+		Descr: endpageScr contains events for creating the Game Over Screen
+		Params: self			
+		Returns: none """
+		
 		while self.endpage_Scr:
 			self.gameLost()
 			
@@ -112,16 +204,16 @@ class Controller:
 				if event.type == pygame.QUIT:
 					return pygame.quit()
 				
-				if event.type == MOUSEBUTTONDOWN:
+				elif event.type == MOUSEBUTTONDOWN:
 					# Click the restart button
 					if self.restart_button.collidepoint(pygame.mouse.get_pos()):
 						return self.startMenuScr()
 					# Click instruction button
-					if self.instruction_button.collidepoint(pygame.mouse.get_pos()):
+					elif self.instruction_button.collidepoint(pygame.mouse.get_pos()):
 						self.whereClickInstructionMenu = 2
 						return self.instructionMenuScr()
 					# Click sound button -- play and stop the sound
-					if self.sound_button.collidepoint(pygame.mouse.get_pos()):
+					elif self.sound_button.collidepoint(pygame.mouse.get_pos()):
 						if self.soundcanplay == False:
 							self.soundcanplay = True
 						elif self.soundcanplay == True:
@@ -131,6 +223,11 @@ class Controller:
 		
 	
 	def instructionMenuScr(self):
+		"""
+		Descr: instructionMenuScr contains events for creating the Instruction Screen
+		Params: self
+		Returns: none """
+		
 		while self.instruction_Menu_Scr:
 			self.instruction_Menu() #Creates the instruction menu screen
         	
@@ -140,17 +237,23 @@ class Controller:
 					return pygame.quit()
 					
 				# Click the Mainmenu button and return to the main screen
-				if event.type == MOUSEBUTTONDOWN: 
+				elif event.type == MOUSEBUTTONDOWN: 
 					if self.mainmenu_button.collidepoint(pygame.mouse.get_pos()):
 						if self.whereClickInstructionMenu == 1:
 							return self.startMenuScr()
-						if self.whereClickInstructionMenu == 2:
+						elif self.whereClickInstructionMenu == 2:
 							return self.endpageScr()
 			
 			pygame.display.flip()
         	
         	
 	def gamemapScr(self):
+		"""
+		Descr: gameMapScr contains events for creating the Game Screen
+		Params: self
+		Returns: none """
+		
+		#initial values
 		self.wavenum = 0
 		self.inWave = False
 		
@@ -161,13 +264,11 @@ class Controller:
 			
 			# Game loss and return to the endpage
 			if self.health == 0:
-				self.health = 20
-				self.money = 500
-				self.tower = []
-				self.invader = []
-				self.bullets = []
-				self.sprites.empty()
+				self.emptyOut()
 				return self.endpageScr()
+			elif self.wave == 11:
+				self.emptyOut()
+				return self.winpageScr()
         	
 			for event in pygame.event.get():
 				# quit
@@ -181,12 +282,12 @@ class Controller:
 							self.tower.append(tower.Tower(mousepos))
 							self.sprites.add(self.tower)
 							self.tower[-1].ablemove = True
-					if self.wave_start_button.collidepoint(mousepos):
+					elif self.wave_start_button.collidepoint(mousepos):
 						if self.inWave == False:
 							self.inWave = True
 							self.num = 0
 							self.wavenum += 1
-							self.invadernum = ((self.wavenum*2)+8)
+							self.invadernum = ((self.wavenum*3)+5)
 					
 				elif event.type == MOUSEMOTION and self.tower != []:
 					if self.tower[-1].ablemove == True:
@@ -223,13 +324,16 @@ class Controller:
 
 				#Bullet MOVEMENT
 				for shoot in self.bullets:
-					monsters.health -= 4
-					self.sprites.remove(shoot)
-					self.bullets.remove(shoot)
+					#Bullets Move to Invader Location
+					shoot.to_invader(monsters.rect.center)
+					if pygame.sprite.collide_rect(shoot,monsters):
+						monsters.health -= 4
+						self.sprites.remove(shoot)
+						self.bullets.remove(shoot)
 						
 					#Monster Killed By Bullets
-					if monsters.health == 0:
-						self.money += 30
+					elif monsters.health == 0:
+						self.money += 20
 						self.sprites.remove(monsters)
 						self.invader.remove(monsters)
 			
@@ -248,6 +352,10 @@ class Controller:
     
     
 	def startMenuScr(self):
+		"""
+		Desscr: startMenuScr contains events for creating the Start Menu Screen
+		Params: self
+		Returns: none """
 		self.soundplay()
 		while self.start_Menu_Scr:
 			self.startMenu() #Creates the start menu screen
@@ -256,18 +364,18 @@ class Controller:
 				if event.type == pygame.QUIT:
 					return pygame.quit()
 				
-				if event.type == MOUSEBUTTONDOWN:
+				elf event.type == MOUSEBUTTONDOWN:
 					# Click start button
 					if self.start.collidepoint(pygame.mouse.get_pos()):
 						return self.gamemapScr()
 					
 					# Click instruction button
-					if self.instruction_button.collidepoint(pygame.mouse.get_pos()):
+					elif self.instruction_button.collidepoint(pygame.mouse.get_pos()):
 						self.whereClickInstructionMenu = 1
 						return self.instructionMenuScr()
 					
 					# Click sound button -- play and stop the sound
-					if self.sound_button.collidepoint(pygame.mouse.get_pos()):
+					elif self.sound_button.collidepoint(pygame.mouse.get_pos()):
 						if self.soundcanplay == False:
 							self.soundcanplay = True
 						elif self.soundcanplay == True:
@@ -276,7 +384,10 @@ class Controller:
 			pygame.display.flip()
 
 	def mainLoop(self):
-		#Creates the main game loop
+		"""
+		Descr: mainLoop contains initial events and opens up Start Menu Screen
+		Params: self
+		Returns: none """
 		
 		# set different menu loop
 		self.start_Menu_Scr = True
@@ -286,6 +397,7 @@ class Controller:
 		self.winpage_Scr = True
 		self.whereClickInstructionMenu = 0
 		
+		#creates start menu
 		self.startMenuScr()
 		pygame.quit()
 
