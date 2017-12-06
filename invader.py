@@ -58,9 +58,21 @@ class Invader(pygame.sprite.Sprite):
         elif self.direction == "down":
             self.rect.y += self.speed
 
+    def healthbar(self,screen):
+        """
+        Descr: healthbar shows the health of the invader
+        Params: self
+                screen is a pygame object
+        Returns: none """
+        
+        self.outline = pygame.draw.rect(screen,(0,0,0),(self.rect.x,self.rect.y-10,21,6),1)
+        self.redbar = pygame.draw.rect(screen,(255,0,0),(self.rect.x,self.rect.y-10,self.health/5,5))
+    
     def getDirection(self, pathObj):
+		
         startXY = pathObj.getPathXY(self.location)
         nextXY = pathObj.getPathXY(pathObj.getNextPath(self))
+		
         if(startXY[0] == nextXY[0] and startXY[1] < nextXY[1]):
             return "down"
         elif(startXY[0] == nextXY[0] and startXY[1] > nextXY[1]):
