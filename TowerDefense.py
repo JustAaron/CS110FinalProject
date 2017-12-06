@@ -24,11 +24,13 @@ class Controller:
 		self.clock = pygame.time.Clock()
 
 		#Starting Variables: Initial starting values recieved at beginning of game
-		self.money = 500
+		self.money = 300
 		self.health = 20
 		self.tower = []
 		self.invader = []
 		self.bullets = []
+		self.wavenum = 0
+		self.inWave = False
 		# make a sprites Group
 		self.sprites = pygame.sprite.Group(tuple(self.tower))
 
@@ -40,6 +42,7 @@ class Controller:
 		pygame.mixer.music.load('Daydream.ogg')
 		pygame.mixer.music.set_volume(0.5)
 		self.soundcanplay = True
+			
 
 	################################################
 		
@@ -52,7 +55,7 @@ class Controller:
 		#Instruction button
 		self.instruction_button = pygame.draw.ellipse(self.mainscreen,(255,255,255),(565,570,40,65))
 		#Sound button
-		self.sound_button = pygame.draw.ellipse(self.mainscreen,(255,255,255),(635,575,50,60))# fix
+		self.sound_button = pygame.draw.ellipse(self.mainscreen,(255,255,255),(635,575,50,60))
 		#Mainmenu button
 		self.mainmenu_button = pygame.draw.rect(self.mainscreen,(255,255,255),(225,450,250,100))
 		#Wave Start Button
@@ -102,6 +105,9 @@ class Controller:
 		#HealthBar
 		for invading in self.invader:
 			invading.healthbar(self.mainscreen)
+		#Wave
+		wavetext = self.font.render(str(self.wavenum),True, (255,255,255))
+		self.mainscreen.blit(wavetext,(600,430))
 
 	def instruction_Menu(self):
 		"""
@@ -160,6 +166,8 @@ class Controller:
 		self.invader = []
 		self.bullets = []
 		self.sprites.empty()
+		self.wavenum = 0
+		self.inWave = False
 	#######################################################
 	
 	# Screens with events
@@ -258,10 +266,6 @@ class Controller:
 		Descr: gameMapScr contains events for creating the Game Screen
 		Params: self
 		Returns: none """
-		
-		#initial values
-		self.wavenum = 0
-		self.inWave = False
 		
 		while self.gamemap_Scr:
 			self.interface() #Creates the game menu screen
