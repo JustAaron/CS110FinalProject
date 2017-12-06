@@ -321,36 +321,38 @@ class Controller:
 			for monsters in self.invader:
 				direction = monsters.path()
 				monsters.move(direction)
-				pygame.time.delay(10)
+				pygame.time.delay(100)
 				
 				#Invaders in Tower Range get Shot
-				for defenders in self.tower:
+			for defenders in self.tower:
+				for monsters in self.invader:
 					if defenders.inRange(monsters.rect.x,monsters.rect.y):
 						ammo = bullet.Bullet((defenders.rect.center))
 						self.bullets.append(ammo)
 						self.sprites.add(self.bullets)
+						break
 
-				#Bullet MOVEMENT
-				for shoot in self.bullets:
-					#Bullets Move to Invader Location
-					shoot.to_invader(monsters.rect.center)
-					if pygame.sprite.collide_rect(shoot,monsters):
-						monsters.health -= 4
-						self.sprites.remove(shoot)
-						self.bullets.remove(shoot)
-						
-						#Monster Killed By Bullets
-						if monsters.health == 0:
-							self.money += 5
-							self.sprites.remove(monsters)
-							self.invader.remove(monsters)
+					#Bullet MOVEMENT
+					for shoot in self.bullets:
+						#Bullets Move to Invader Location
+						shoot.to_invader(monsters.rect.center)
+						if pygame.sprite.collide_rect(shoot,monsters):
+							monsters.health -= 25
+							self.sprites.remove(shoot)
+							self.bullets.remove(shoot)
+							
+							#Monster Killed By Bullets
+							if monsters.health == 0:
+								self.money += 5
+								self.sprites.remove(monsters)
+								self.invader.remove(monsters)
 			
 
-				#Health Decreasing when Invade reach castle
-				if monsters.rect == (680,110,20,20):
-					self.health -= 1
-					self.sprites.remove(monsters)
-					self.invader.remove(monsters)
+					#Health Decreasing when Invade reach castle
+					if monsters.rect == (680,110,20,20):
+						self.health -= 1
+						self.sprites.remove(monsters)
+						self.invader.remove(monsters)
 
 					
 			# upload the image
