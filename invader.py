@@ -5,7 +5,11 @@ import path
 class Invader(pygame.sprite.Sprite):
     """Class represents the slimes that appear each wave"""
     def __init__(self,img_file,spawningpoint):
-        """Creates invader and initial positions"""
+        """
+            Descr: __init__ sets initial variables and image
+            Params: self
+            Returns: none """
+        
         pygame.sprite.Sprite.__init__(self)
         
         #Puts image into the invader
@@ -22,6 +26,11 @@ class Invader(pygame.sprite.Sprite):
         self.p = path.Path()
         
     def path(self):
+        """
+        Descr: path is a list of coordinates of the path
+        Params: none
+        Returns: string containing direction """
+        
         if (self.rect[1] == 80) and (10 <= self.rect[0] <=140):
             return "right"
         elif (self.rect[0] == 170) and (80 <= self.rect[1] <= 290):
@@ -34,7 +43,11 @@ class Invader(pygame.sprite.Sprite):
             return "right"
 
     def move(self, direction):
-        """Called each frame and moves self.speed pixels"""
+        """
+        Descr: move changes rect based on direction given
+        Params: direction is a string containing direction
+        Returns: none """
+        
         self.direction = direction
         if self.direction == "right":
             self.rect.x += self.speed
@@ -44,11 +57,6 @@ class Invader(pygame.sprite.Sprite):
             self.rect.y -= self.speed
         elif self.direction == "down":
             self.rect.y += self.speed
-        self.location += 1
-            
-    def update(self):
-        screen.blit(self.image,(self.rect))
-        #Hook: adds functionality which will be called
 
     def getDirection(self, pathObj):
         startXY = pathObj.getPathXY(self.location)
@@ -61,8 +69,7 @@ class Invader(pygame.sprite.Sprite):
             return "right"
         elif(startXY[0] > nextXY[0] and startXY[1] == nextXY[1]):
             return "left"
-        print("error")
-        return "down"
+
         
 
 
