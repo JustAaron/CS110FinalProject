@@ -321,7 +321,13 @@ class Controller:
 			for monsters in self.invader:
 				direction = monsters.path()
 				monsters.move(direction)
-				pygame.time.delay(100)
+				#pygame.time.delay(100)
+				
+				#Health Decreasing when Invade reach castle
+				if monsters.rect == (680,110,20,20):
+					self.health -= 1
+					self.sprites.remove(monsters)
+					self.invader.remove(monsters)
 				
 				#Invaders in Tower Range get Shot
 			for defenders in self.tower:
@@ -346,15 +352,7 @@ class Controller:
 								self.money += 5
 								self.sprites.remove(monsters)
 								self.invader.remove(monsters)
-			
-
-					#Health Decreasing when Invade reach castle
-					if monsters.rect == (680,110,20,20):
-						self.health -= 1
-						self.sprites.remove(monsters)
-						self.invader.remove(monsters)
-
-					
+				
 			# upload the image
 			self.interface()
 			self.sprites.draw(self.mainscreen)
