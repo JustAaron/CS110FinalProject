@@ -5,7 +5,7 @@ import math
 class Tower(pygame.sprite.Sprite):
 	"""Class represents the towers that protects the castle by killling invaders"""
 		
-	def __init__(self, mouse, img_file = "tower.png",radius=100,price=100):
+	def __init__(self, mouse, img_file = "tower.png",radius=75,price=100):
 		"""
 		Descr: __init__ sets initial variables and image
 		Params: mouse is a tuple containing coordinates
