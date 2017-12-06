@@ -99,6 +99,9 @@ class Controller:
 		#Health
 		healthtext = self.font.render(str(self.health),True, (255,255,255))
 		self.mainscreen.blit(healthtext,(175,585))
+		#HealthBar
+		for invading in self.invader:
+			invading.healthbar(self.mainscreen)
 
 	def instruction_Menu(self):
 		"""
