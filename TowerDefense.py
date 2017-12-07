@@ -44,6 +44,15 @@ class Controller:
 		pygame.mixer.music.set_volume(0.5)
 		self.soundcanplay = True
 			
+		# Load invader pictures
+		self.invaderimage1 = pygame.image.load('assets/' + "slime1.png").convert_alpha()
+		self.invaderimage1 = pygame.transform.scale(self.invaderimage1,(20,20))
+		
+		self.invaderimage2 = pygame.image.load('assets/' + "slime2.png").convert_alpha()
+		self.invaderimage2 = pygame.transform.scale(self.invaderimage2,(20,20))
+		
+		self.invaderimage3 = pygame.image.load('assets/' + "slime3.png").convert_alpha()
+		self.invaderimage3 = pygame.transform.scale(self.invaderimage3,(20,20))
 
 	################################################
 		
@@ -332,6 +341,19 @@ class Controller:
 				direction = monsters.path()
 				monsters.move(direction)
 				
+				# Make the invader Gif pictures
+				if monsters.whichimage == 3:
+					monsters.whichimage = 1
+				elif monsters.whichimage != 3:
+					monsters.whichimage +=1
+				
+				if monsters.whichimage == 1:
+					monsters.image = self.invaderimage1
+				if monsters.whichimage == 2:
+					monsters.image = self.invaderimage2
+				if monsters.whichimage == 3:
+					monsters.image = self.invaderimage3
+					
 				#Health Decreasing when Invade reach castle
 				if monsters.rect == (680,110,20,20):
 					self.health -= 1
