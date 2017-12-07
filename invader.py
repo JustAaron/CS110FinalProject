@@ -26,6 +26,7 @@ class Invader(pygame.sprite.Sprite):
         self.speed = 30
         self.location = 1
         self.p = path.Path()
+        self.whichimage = 1
         
     def path(self):
         """
