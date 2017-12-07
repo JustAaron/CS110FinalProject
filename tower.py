@@ -9,8 +9,8 @@ class Tower(pygame.sprite.Sprite):
 		"""
 		Descr: __init__ sets initial variables and image
 		Params: mouse is a tuple containing coordinates
-				img_file is a string containing image name
-				radius and price is int
+			img_file is a string containing image name
+			radius and price is int
 		Returns: none """
 		
 		#initialize all the Sprite functionality
@@ -24,8 +24,8 @@ class Tower(pygame.sprite.Sprite):
 		self.rect = self.image.get_rect()
 		#move ability
 		self.ablemove = False
-		self.rect.x = mouse[0]
-		self.rect.y = mouse[1]
+		self.rect.centerx = mouse[0]
+		self.rect.centery = mouse[1]
 
 	def followmouse(self, change):
 		"""

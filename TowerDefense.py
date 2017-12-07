@@ -415,6 +415,7 @@ class Controller:
 		self.startMenuScr()
 		pygame.quit()
 
+
 def main():
 	main_window = Controller()
 	main_window.mainLoop()
