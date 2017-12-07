@@ -308,7 +308,7 @@ class Controller:
 						self.tower[-1].followmouse(mousepos_change)
 
 				elif event.type == MOUSEBUTTONUP and self.tower != []:
-					if mousepos[1] > 400 or not(self.p.isGrass(self.tower[-1])):
+					if not(self.p.isGrass(self.tower[-1])):
 						self.sprites.remove(self.tower[-1])
 						self.tower.remove(self.tower[-1])
 					elif self.tower[-1].ablemove == True:

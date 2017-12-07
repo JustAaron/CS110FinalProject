@@ -15,7 +15,10 @@ class Path:
         row6 = [0, 0, 0, 8, 0, 0, 13, 0, 0, 0, 0, 0, 0, 0]
         row7 = [0, 0, 0, 9, 10, 11, 12, 0, 0, 0, 0, 0, 0, 0]
         row8 = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-
+        row9 = [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1]
+        row10 = [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1]
+        row11 = [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1]
+        row12 = [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1]
         self.paths.append(row1)
         self.paths.append(row2)
         self.paths.append(row3)
@@ -24,7 +27,10 @@ class Path:
         self.paths.append(row6)
         self.paths.append(row7)
         self.paths.append(row8)
-
+        self.paths.append(row9)
+        self.paths.append(row10)
+        self.paths.append(row11)
+        self.paths.append(row12)
         self.maxPath = 1
         for i in range(len(self.paths)):
             for j in range(len(self.paths[i])):
@@ -68,7 +74,7 @@ class Path:
                 rule1 = self.paths[i][j] == 0
                 rule2 = int(pos[0] /50)
                 rule3 = int(pos[1] / 50)
-                if (self.paths[rule3][rule2])!=0:
+                if (self.paths[rule3][rule2])>0 or(self.paths[rule3][rule2])== -1:
                     return False
         return True
 
