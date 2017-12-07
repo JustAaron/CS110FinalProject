@@ -320,7 +320,7 @@ class Controller:
 			#INVADERS IN WAVE
 			if self.inWave == True:
 				if num < invadernum:
-					slime = invader.Invader("slime.png", (20,80))
+					slime = invader.Invader("slime1.png", (20,80))
 					self.invader.append(slime)
 					self.sprites.add(self.invader)
 					num += 1
