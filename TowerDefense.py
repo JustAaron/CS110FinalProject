@@ -31,6 +31,7 @@ class Controller:
 		self.bullets = []
 		self.wavenum = 0
 		self.inWave = False
+		self.p = path.Path()
 		# make a sprites Group
 		self.sprites = pygame.sprite.Group(tuple(self.tower))
 
@@ -295,9 +296,9 @@ class Controller:
 					elif self.wave_start_button.collidepoint(mousepos):
 						if self.inWave == False:
 							self.inWave = True
-							self.num = 0
 							self.wavenum += 1
-							self.invadernum = ((self.wavenum*3)+5)
+							num = 0
+							invadernum = ((self.wavenum*3)+5)
 					
 				elif event.type == MOUSEMOTION and self.tower != []:
 					if self.tower[-1].ablemove == True:
@@ -305,7 +306,7 @@ class Controller:
 						self.tower[-1].followmouse(mousepos_change)
 
 				elif event.type == MOUSEBUTTONUP and self.tower != []:
-					if self.tower[-1].ablemove == True:
+					if self.tower[-1].ablemove == True and self.p.isGrass(self.tower[-1]):
 						self.tower[-1].image = self.towerimg
 						self.money -= self.tower[-1].cost
 						self.tower[-1].ablemove = False
@@ -313,12 +314,12 @@ class Controller:
 
 			#INVADERS IN WAVE
 			if self.inWave == True:
-				if self.num<self.invadernum:
+				if num < invadernum:
 					slime = invader.Invader("slime.png", (20,80))
 					self.invader.append(slime)
 					self.sprites.add(self.invader)
-					self.num += 1
-				elif self.num == self.invadernum:
+					num += 1
+				elif num == invadernum:
 					self.inWave = False
 			
 			#INVADER MOVEMENT
