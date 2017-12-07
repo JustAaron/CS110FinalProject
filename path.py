@@ -68,16 +68,24 @@ class Path:
                     return (j * 50, i * 50)
         return (-1, -1)
 
-    def isGrass(self, mousePosition):
+    def isGrass(self,towerobj):
         """
         Descr: isGrass defines area on map that is not path
         Param: self
                 mousePosition is a tuple containing position of mouse
         Return: bool expression(True/False) """
         
+        towerPosition = (towerobj.rect.centerx,towerobj.rect.centery)
+        pos = towerPosition
+        
         for i in range(len(self.paths)):
             for j in range(len(self.paths[i])):
-                if(self.paths[i][j] == 0 and pos[0] / 50 <= i + 1 and pos[0] / 50 >= i and pos[1] / 50 <= j + 1 and pos[1] / 50 >= j):
+                rule1 = self.paths[i][j] == 0
+                rule2 = pos[0] / 50 <= i + 1
+                rule3 =  pos[0] / 50 >= i
+                rule4 = pos[1] / 50 <= j + 1
+                rule5 = pos[1] / 50 >= j
+                if(rule1 and rule2 and rule3 and rule4 and rule5):
                     return True
         return False
 
