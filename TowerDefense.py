@@ -32,7 +32,7 @@ class Controller:
 		self.wavenum = 0
 		self.inWave = False
 		self.p = path.Path()
-		# make a sprites Group
+		#Make a sprites Group
 		self.sprites = pygame.sprite.Group(tuple(self.tower))
 
 		#Fonts
@@ -108,7 +108,7 @@ class Controller:
 			invading.healthbar(self.mainscreen)
 		#Wave
 		wavetext = self.font.render(str(self.wavenum),True, (255,255,255))
-		self.mainscreen.blit(wavetext,(600,430))
+		self.mainscreen.blit(wavetext,(610,440))
 
 	def instruction_Menu(self):
 		"""
@@ -288,11 +288,13 @@ class Controller:
 					
 				# Move tower and lose money
 				elif event.type == MOUSEBUTTONDOWN:
+					
 					if self.towerRect.collidepoint(pygame.mouse.get_pos()):
 						if self.money >= tower.Tower(mousepos).cost:
 							self.tower.append(tower.Tower(mousepos))
 							self.sprites.add(self.tower)
 							self.tower[-1].ablemove = True
+				
 					elif self.wave_start_button.collidepoint(mousepos):
 						if self.inWave == False:
 							self.inWave = True
@@ -306,7 +308,10 @@ class Controller:
 						self.tower[-1].followmouse(mousepos_change)
 
 				elif event.type == MOUSEBUTTONUP and self.tower != []:
-					if self.tower[-1].ablemove == True and self.p.isGrass(self.tower[-1]):
+					if mousepos[1] > 400 or not(self.p.isGrass(self.tower[-1])):
+						self.sprites.remove(self.tower[-1])
+						self.tower.remove(self.tower[-1])
+					elif self.tower[-1].ablemove == True:
 						self.tower[-1].image = self.towerimg
 						self.money -= self.tower[-1].cost
 						self.tower[-1].ablemove = False
@@ -326,7 +331,6 @@ class Controller:
 			for monsters in self.invader:
 				direction = monsters.path()
 				monsters.move(direction)
-				#pygame.time.delay(100)
 				
 				#Health Decreasing when Invade reach castle
 				if monsters.rect == (680,110,20,20):
@@ -369,7 +373,7 @@ class Controller:
 		Desscr: startMenuScr contains events for creating the Start Menu Screen
 		Params: self
 		Returns: none """
-		self.soundplay()
+		
 		while self.start_Menu_Scr:
 			self.startMenu() #Creates the start menu screen
 			
