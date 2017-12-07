@@ -26,7 +26,6 @@ class Invader(pygame.sprite.Sprite):
         self.speed = 30
         self.location = 1
         self.p = path.Path()
-        self.whichimage = 1
         
     def path(self):
         """
@@ -72,19 +71,7 @@ class Invader(pygame.sprite.Sprite):
         self.outline = pygame.draw.rect(screen,(0,0,0),(self.rect.x,self.rect.y-10,21,6),1)
         self.redbar = pygame.draw.rect(screen,(255,0,0),(self.rect.x,self.rect.y-10,self.health/5,5))
     
-    def getDirection(self, pathObj):
-		
-        startXY = pathObj.getPathXY(self.location)
-        nextXY = pathObj.getPathXY(pathObj.getNextPath(self))
-		
-        if(startXY[0] == nextXY[0] and startXY[1] < nextXY[1]):
-            return "down"
-        elif(startXY[0] == nextXY[0] and startXY[1] > nextXY[1]):
-            return "up"
-        elif(startXY[0] < nextXY[0] and startXY[1] == nextXY[1]):
-            return "right"
-        elif(startXY[0] > nextXY[0] and startXY[1] == nextXY[1]):
-            return "left"
+
 
         
 
