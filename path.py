@@ -1,10 +1,11 @@
 class Path:
     def __init__(self):
         '''
-Desc: Initializes the list of tuples that represent the 2d map of the world
-Param: self
-Return: None
+        Desc: Initializes the list of tuples that represent the 2d map of the world
+        Param: self
+        Return: None
         '''
+        
         self.paths = []
         row1 = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
         row2 = [1, 2, 3, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
@@ -31,44 +32,52 @@ Return: None
             for j in range(len(self.paths[i])):
                 if(self.paths[i][j] > self.maxPath):
                     self.maxPath = self.paths[i][j]
+
     def __str__(self):
         '''
-Desc: Return the 2d array that represents the path
-Param: self
-Return: List of Tuples
+        Desc: Return the 2d array that represents the path
+        Param: self
+        Return: List of Tuples
         '''
+        
         return str(self.paths)
+    
     def getNextPath(self, invader):
         '''
-Desc: Given an instance of an invader, return its next path number to go to
-Param: self, invader
-Return: int
-        '''
+        Desc: Given an instance of an invader, return its next path number to go to
+        Param: self
+                invader is a pygame sprite
+        Return: int
+                '''
+        
         if(invader.location + 1 <= self.maxPath):
             return invader.location + 1
         return -1 #if this is returned, decremenet castle health
+    
     def getPathXY(self, pathNumber):
         '''
-Desc: Given a path number to go to, return the (x,y) coordinates of the path on the grid
-Param: self, int
-Return: tuple
+        Desc: Given a path number to go to, return the (x,y) coordinates of the path on the grid
+        Param: self
+                pathNum is an int
+        Return: tuple
         '''
+        
         for i in range(len(self.paths)):
             for j in range(len(self.paths[i])):
                 if(pathNumber == self.paths[i][j]):
                     return (j * 50, i * 50)
         return (-1, -1)
+
     def isGrass(self, mousePosition):
-        pos = mousePosition
+        """
+        Descr: isGrass defines area on map that is not path
+        Param: self
+                mousePosition is a tuple containing position of mouse
+        Return: bool expression(True/False) """
+        
         for i in range(len(self.paths)):
             for j in range(len(self.paths[i])):
                 if(self.paths[i][j] == 0 and pos[0] / 50 <= i + 1 and pos[0] / 50 >= i and pos[1] / 50 <= j + 1 and pos[1] / 50 >= j):
                     return True
         return False
 
-'''
-def main():
-    p = Path()
-    print(p.getPathXY(1))
-main()
-'''

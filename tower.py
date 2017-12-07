@@ -12,6 +12,7 @@ class Tower(pygame.sprite.Sprite):
 				img_file is a string containing image name
 				radius and price is int
 		Returns: none """
+		
 		#initialize all the Sprite functionality
 		pygame.sprite.Sprite.__init__(self)
 
@@ -29,16 +30,20 @@ class Tower(pygame.sprite.Sprite):
 	def followmouse(self, change):
 		"""
 		Descr: followmouse chnges rect based on change
-		Params: change is a tuple containing new coordinates of change
+		Params: self
+				change is a tuple containing new coordinates of change
 		Returns: none """
+	
 		self.rect.x += change[0]
 		self.rect.y += change[1]
 
 	def inRange(self,enemyX,enemyY):
 		"""
 		Descr: inRange tells if enemy is in range of tower
-		Params: enemyX/enemyY are int of the x and y coordinates
+		Params: self
+				enemyX/enemyY are int of the x and y coordinates
 		Returns: Boolean Expression(True/False) if in/not in range """
+	
 		distanceToEnemy = math.sqrt((enemyX - self.rect.x)**2 + (enemyY - self.rect.y)**2)
 		if (distanceToEnemy < self.radius):
 			return True

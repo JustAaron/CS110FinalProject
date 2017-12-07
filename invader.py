@@ -8,6 +8,8 @@ class Invader(pygame.sprite.Sprite):
         """
             Descr: __init__ sets initial variables and image
             Params: self
+                    img_file is a string containing file name
+                    spawningpoint is a tuple containing coordinates
             Returns: none """
         
         pygame.sprite.Sprite.__init__(self)
@@ -45,7 +47,8 @@ class Invader(pygame.sprite.Sprite):
     def move(self, direction):
         """
         Descr: move changes rect based on direction given
-        Params: direction is a string containing direction
+        Params: self
+                direction is a string containing direction
         Returns: none """
         
         self.direction = direction
