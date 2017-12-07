@@ -15,8 +15,7 @@ class Path:
         row6 = [0, 0, 0, 8, 0, 0, 13, 0, 0, 0, 0, 0, 0, 0]
         row7 = [0, 0, 0, 9, 10, 11, 12, 0, 0, 0, 0, 0, 0, 0]
         row8 = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-        #row9 = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-        #row10 = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+
         self.paths.append(row1)
         self.paths.append(row2)
         self.paths.append(row3)
@@ -25,8 +24,7 @@ class Path:
         self.paths.append(row6)
         self.paths.append(row7)
         self.paths.append(row8)
-        #self.paths.append(row9)
-        #self.paths.append(row10)
+
         self.maxPath = 1
         for i in range(len(self.paths)):
             for j in range(len(self.paths[i])):
@@ -42,17 +40,6 @@ class Path:
         
         return str(self.paths)
     
-    def getNextPath(self, invader):
-        '''
-        Desc: Given an instance of an invader, return its next path number to go to
-        Param: self
-                invader is a pygame sprite
-        Return: int
-                '''
-        
-        if(invader.location + 1 <= self.maxPath):
-            return invader.location + 1
-        return -1 #if this is returned, decremenet castle health
     
     def getPathXY(self, pathNumber):
         '''
@@ -75,17 +62,13 @@ class Path:
                 mousePosition is a tuple containing position of mouse
         Return: bool expression(True/False) """
         
-        towerPosition = (towerobj.rect.centerx,towerobj.rect.centery)
-        pos = towerPosition
-        
+        pos = (towerobj.rect.centerx,towerobj.rect.centery)
         for i in range(len(self.paths)):
             for j in range(len(self.paths[i])):
                 rule1 = self.paths[i][j] == 0
-                rule2 = pos[0] / 50 <= i + 1
-                rule3 =  pos[0] / 50 >= i
-                rule4 = pos[1] / 50 <= j + 1
-                rule5 = pos[1] / 50 >= j
-                if(rule1 and rule2 and rule3 and rule4 and rule5):
-                    return True
-        return False
+                rule2 = int(pos[0] /50)
+                rule3 = int(pos[1] / 50)
+                if (self.paths[rule3][rule2])!=0:
+                    return False
+        return True
 
