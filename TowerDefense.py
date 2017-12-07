@@ -171,7 +171,7 @@ class Controller:
 		Returns: none """
 		
 		self.health = 20
-		self.money = 500
+		self.money = 300
 		self.tower = []
 		self.invader = []
 		self.bullets = []
